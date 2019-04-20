@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="colorbuttonLogin">#33d81c</color>
+    <color name="white">#FFFFFF</color>
+    <color name="colorLila">#C9F3C2E9</color>
+    <color name="colorFucsia">#E71F62</color>
+    <color name="colorAmarillo">#F1DB51</color>
+    <color name="colorbuttonFB"> #3b5998</color>
+    <color name="colorTwitter">  #00acee</color>
+    <color name="colorNaranja">#FF9800</color>
+    <color name="translucent">#0000ffff</color>
+</resources>

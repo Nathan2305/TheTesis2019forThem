@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_login3"
+    tools:context=".Activities.Protector">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/space_action_bar_view_vertical"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <com.github.ybq.android.spinkit.SpinKitView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/spin_kit"
+            style="@style/SpinKitView.Circle"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/translucent"
+            android:padding="10dp"
+            app:SpinKit_Color="@color/colorAmarillo"
+            tools:ignore="MissingConstraints" />
+
+        <GridView
+            android:id="@+id/gridHelper"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:columnWidth="170dp"
+            android:gravity="center"
+            android:horizontalSpacing="0dp"
+            android:numColumns="2"
+            android:stretchMode="spacingWidthUniform"
+            android:verticalSpacing="0dp"></GridView>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/findProtector"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="bottom|center"
+            android:layout_margin="16dp"
+            android:backgroundTint="@color/colorAmarillo"
+            android:elevation="8dp" />
+    </FrameLayout>
+
+</android.support.design.widget.CoordinatorLayout>
