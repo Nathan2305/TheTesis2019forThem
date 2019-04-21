@@ -1,7 +1,6 @@
 package com.example.appforthem.Activities;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -22,9 +21,7 @@ import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
-import com.backendless.persistence.BackendlessDataQuery;
 import com.backendless.persistence.DataQueryBuilder;
-import com.example.appforthem.Clases.BackendlessHelperUtils;
 import com.example.appforthem.Clases.BackendlessSettings;
 import com.example.appforthem.Clases.CustomAdapterHelpers;
 import com.example.appforthem.Clases.CustomAdapterHelpers_toSearch;
@@ -32,7 +29,6 @@ import com.example.appforthem.Clases.Helper;
 import com.example.appforthem.R;
 import com.github.ybq.android.spinkit.style.Circle;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.appforthem.Activities.LoginActivity.backendlessUser;
@@ -56,12 +52,12 @@ public class Protector extends AppCompatActivity {
         findProtector.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFindHelperDialog();
+                FindHelperDialog();
             }
         });
     }
 
-    public void showFindHelperDialog() {
+    public void FindHelperDialog() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(Protector.this);
         LayoutInflater layoutInflater = LayoutInflater.from(getApplicationContext());
         View view = layoutInflater.inflate(R.layout.finder_dialog_protector, null);
@@ -83,7 +79,7 @@ public class Protector extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                showHelpers(recyclerView, query);
+                showHelpersDialog(recyclerView, query);
                 return false;
             }
 
@@ -128,7 +124,7 @@ public class Protector extends AppCompatActivity {
                         }
                     }
                     dataQueryBuilder.setWhereClause(sb.toString());
-                    Backendless.Data.of(BackendlessUser.class).find(dataQueryBuilder,new AsyncCallback<List<BackendlessUser>>() {
+                    Backendless.Data.of(BackendlessUser.class).find(dataQueryBuilder, new AsyncCallback<List<BackendlessUser>>() {
                         @Override
                         public void handleResponse(List<BackendlessUser> response) {
                             if (response.size() > 0) {
@@ -136,29 +132,36 @@ public class Protector extends AppCompatActivity {
                                 gridHelper.setAdapter(adapter);
                                 progressBar.setVisibility(View.GONE);
                             } else {
-
+                                BackendlessSettings.showToast(getApplicationContext(), "Todavía no tienes protectores agregados");
+                                progressBar.setVisibility(View.GONE);
                             }
                         }
 
                         @Override
                         public void handleFault(BackendlessFault fault) {
                             BackendlessSettings.showToast(getApplicationContext(), "Error trying to get Data.. " + fault.getMessage());
+                            progressBar.setVisibility(View.GONE);
+
                         }
                     });
 
                 } else {
+                    BackendlessSettings.showToast(getApplicationContext(), "Todavía no tienes protectores agregados");
+                    progressBar.setVisibility(View.GONE);
+
                 }
             }
-
             @Override
             public void handleFault(BackendlessFault fault) {
+                BackendlessSettings.showToast(getApplicationContext(), "Error al cargar protectores : " + fault.getMessage());
+                progressBar.setVisibility(View.GONE);
 
             }
         });
     }
 
 
-    public void showHelpers(final RecyclerView recyclerView, String dataHelper) {
+    public void showHelpersDialog(final RecyclerView recyclerView, String dataHelper) {
         RecyclerView.LayoutManager layoutManager;
         layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
