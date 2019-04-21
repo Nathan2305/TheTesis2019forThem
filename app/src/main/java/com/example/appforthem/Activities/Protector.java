@@ -18,17 +18,21 @@ import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 
-import com.alespero.expandablecardview.ExpandableCardView;
 import com.backendless.Backendless;
+import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.backendless.persistence.BackendlessDataQuery;
 import com.backendless.persistence.DataQueryBuilder;
+import com.example.appforthem.Clases.BackendlessHelperUtils;
+import com.example.appforthem.Clases.BackendlessSettings;
 import com.example.appforthem.Clases.CustomAdapterHelpers;
 import com.example.appforthem.Clases.CustomAdapterHelpers_toSearch;
 import com.example.appforthem.Clases.Helper;
 import com.example.appforthem.R;
 import com.github.ybq.android.spinkit.style.Circle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.appforthem.Activities.LoginActivity.backendlessUser;
@@ -38,11 +42,12 @@ public class Protector extends AppCompatActivity {
     private FloatingActionButton findProtector;
     private ProgressBar progressBar;
     private GridView gridHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_protector);
-        gridHelper=findViewById(R.id.gridHelper);
+        gridHelper = findViewById(R.id.gridHelper);
         findProtector = findViewById(R.id.findProtector);
         progressBar = findViewById(R.id.spin_kit);
         Circle circle = new Circle();
@@ -112,13 +117,37 @@ public class Protector extends AppCompatActivity {
             public void handleResponse(List<Helper> response) {
                 int size = response.size();
                 if (size > 0) {
-                    CustomAdapterHelpers adapter= new CustomAdapterHelpers(getApplicationContext(), response);
-                    gridHelper.setAdapter(adapter);
-                    progressBar.setVisibility(View.GONE);
+                    Backendless.initApp(getApplicationContext(), BackendlessSettings.APPLICATION_ID_HELPERS, BackendlessSettings.ANDROID_SECRET_KEY_HELPERS);
+                    DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
+                    StringBuilder sb = new StringBuilder();
+                    for (int k = 0; k < size; k++) {
+                        if (k == size - 1) {
+                            sb.append("email='" + response.get(k).getEmail() + "'");
+                        } else {
+                            sb.append("email='" + response.get(k).getEmail() + "'" + " OR ");
+                        }
+                    }
+                    dataQueryBuilder.setWhereClause(sb.toString());
+                    Backendless.Data.of(BackendlessUser.class).find(dataQueryBuilder,new AsyncCallback<List<BackendlessUser>>() {
+                        @Override
+                        public void handleResponse(List<BackendlessUser> response) {
+                            if (response.size() > 0) {
+                                CustomAdapterHelpers adapter = new CustomAdapterHelpers(getApplicationContext(), response);
+                                gridHelper.setAdapter(adapter);
+                                progressBar.setVisibility(View.GONE);
+                            } else {
+
+                            }
+                        }
+
+                        @Override
+                        public void handleFault(BackendlessFault fault) {
+                            BackendlessSettings.showToast(getApplicationContext(), "Error trying to get Data.. " + fault.getMessage());
+                        }
+                    });
+
                 } else {
-
                 }
-
             }
 
             @Override

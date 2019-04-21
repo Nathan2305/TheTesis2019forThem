@@ -3,7 +3,7 @@ package com.example.appforthem.Clases;
 
 public class Helper {
 
-    private String obbjectId;
+    private String objectId;
     private String email;
     private String name;
     private String last_name;
@@ -16,11 +16,11 @@ public class Helper {
         this.email = email;
     }
 
-    public String getObbjectId() {
-        return obbjectId;
+    public String getObjectId() {
+        return objectId;
     }
 
-    public void setObbjectId(String obbjectId) {
-        this.obbjectId = obbjectId;
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
     }
 }
