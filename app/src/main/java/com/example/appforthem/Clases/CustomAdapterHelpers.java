@@ -7,8 +7,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.backendless.BackendlessUser;
 import com.example.appforthem.R;
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 public class CustomAdapterHelpers extends BaseAdapter {
@@ -43,11 +46,16 @@ public class CustomAdapterHelpers extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater.from(context));
             convertView = inflater.inflate(R.layout.list_helpers, null); // inflate the layout
             holder = new ViewHolder();
-            //  holder.fotoOpcion = view.findViewById(R.id.fotoOpcion);
             holder.datos = convertView.findViewById(R.id.datos);
+            holder.fotoOpcion = convertView.findViewById(R.id.fotoHelper);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
+        }
+        if (listHelpers.get(position).getProperty("photo") != null) {
+            if (!"".equalsIgnoreCase(listHelpers.get(position).getProperty("photo").toString())) {
+                Picasso.get().load(listHelpers.get(position).getProperty("photo").toString()).transform(new CircleTransform()).into(holder.fotoOpcion);
+            }
         }
         holder.datos.setText(listHelpers.get(position).getProperty("name") + " "
                 + listHelpers.get(position).getProperty("last_name"));
