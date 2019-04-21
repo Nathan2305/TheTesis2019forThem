@@ -80,6 +80,8 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
 
+
+
     public View.OnClickListener createRegisterButtonClickListener() {
         return new View.OnClickListener() {
             @Override
@@ -105,4 +107,5 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         };
     }
+
 }

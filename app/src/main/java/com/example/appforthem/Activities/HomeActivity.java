@@ -21,11 +21,9 @@ import android.widget.Toast;
 import com.example.appforthem.Clases.CustomAdapterOptions;
 import com.example.appforthem.Clases.ServiceMap;
 import com.example.appforthem.R;
-
 import static com.example.appforthem.Activities.LoginActivity.backendlessUser;
 
 public class HomeActivity extends AppCompatActivity {
-
     Button btn_alerta;
     TextView datosUser;
     String BTN_ALERTA = "";

@@ -24,7 +24,7 @@ import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.DataQueryBuilder;
 import com.example.appforthem.Clases.BackendlessSettings;
 import com.example.appforthem.Clases.CustomAdapterHelpers;
-import com.example.appforthem.Clases.CustomAdapterHelpers_toSearch;
+import com.example.appforthem.Clases.CustomAdapterHelpersDialog;
 import com.example.appforthem.Clases.Helper;
 import com.example.appforthem.R;
 import com.github.ybq.android.spinkit.style.Circle;
@@ -162,20 +162,23 @@ public class Protector extends AppCompatActivity {
 
 
     public void showHelpersDialog(final RecyclerView recyclerView, String dataHelper) {
+        Backendless.initApp(getApplicationContext(),BackendlessSettings.APPLICATION_ID_HELPERS,BackendlessSettings.ANDROID_SECRET_KEY_HELPERS);
         RecyclerView.LayoutManager layoutManager;
         layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
-        DataQueryBuilder query = DataQueryBuilder.create();
-        query.setWhereClause("name like  '" + dataHelper + "%'");
-        Backendless.Data.of(Helper.class).find(query, new AsyncCallback<List<Helper>>() {
+
+        DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
+        dataQueryBuilder.setWhereClause("name like  '" + dataHelper + "%'");
+        Backendless.Data.of(BackendlessUser.class).find(dataQueryBuilder, new AsyncCallback<List<BackendlessUser>>() {
             @Override
-            public void handleResponse(List<Helper> response) {
-                RecyclerView.Adapter adapter = new CustomAdapterHelpers_toSearch(getApplicationContext(), response);
+            public void handleResponse(List<BackendlessUser> response) {
+                RecyclerView.Adapter adapter = new CustomAdapterHelpersDialog(getApplicationContext(), response);
                 recyclerView.setAdapter(adapter);
             }
 
             @Override
             public void handleFault(BackendlessFault fault) {
+
             }
         });
     }

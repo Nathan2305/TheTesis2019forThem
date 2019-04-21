@@ -8,21 +8,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
-import com.alespero.expandablecardview.ExpandableCardView;
+import com.backendless.BackendlessUser;
 import com.example.appforthem.R;
 
 import java.util.List;
 import java.util.Random;
 
-public class CustomAdapterHelpers_toSearch extends RecyclerView.Adapter<CustomAdapterHelpers_toSearch.ViewHolder> {
-    List<Helper> lista_helpers;
+public class CustomAdapterHelpersDialog extends RecyclerView.Adapter<CustomAdapterHelpersDialog.ViewHolder> {
+    List<BackendlessUser> lista_helpers;
     static Context context;
 
 
-    public CustomAdapterHelpers_toSearch(Context context, List<Helper> lista_helpers) {
+    public CustomAdapterHelpersDialog(Context context, List<BackendlessUser> lista_helpers) {
         this.context = context;
         this.lista_helpers = lista_helpers;
 
@@ -34,16 +33,19 @@ public class CustomAdapterHelpers_toSearch extends RecyclerView.Adapter<CustomAd
     }
 
     @Override
-    public CustomAdapterHelpers_toSearch.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {// rellena el layout CardViewHolder
+    public CustomAdapterHelpersDialog.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {// rellena el layout CardViewHolder
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_helpers_to_search, viewGroup, false);
         return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(CustomAdapterHelpers_toSearch.ViewHolder viewHolder, int i) {
-        Helper helper = lista_helpers.get(i);
+    public void onBindViewHolder(CustomAdapterHelpersDialog.ViewHolder viewHolder, int i) {
+        BackendlessUser helper = lista_helpers.get(i);
         // viewHolder.foto_helper.set(item.getName());
-       // viewHolder.datos_helper.setText(helper.getName() + " " + helper.getLast_name());
+        StringBuilder stringBuilder=new StringBuilder();
+        stringBuilder.append(helper.getProperty("name").toString())
+                .append(" "+helper.getProperty("last_name").toString());
+        viewHolder.datos_helper.setText(stringBuilder.toString());
         viewHolder.itemView.setTag(helper);
     }
 
@@ -60,7 +62,7 @@ public class CustomAdapterHelpers_toSearch extends RecyclerView.Adapter<CustomAd
             super(itemView);
             datos_helper = itemView.findViewById(R.id.datos_helper);
             cardView=itemView.findViewById(R.id.card);
-           // cardView.setCardBackgroundColor(context.getResources().getColor(getRandomColor()));
+           cardView.setCardBackgroundColor(context.getResources().getColor(getRandomColor()));
 
         }
     }
