@@ -1,11 +1,13 @@
 package com.example.appforthem.Clases;
 
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.backendless.BackendlessUser;
@@ -52,13 +54,13 @@ public class CustomAdapterHelpers extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
+
         if (listHelpers.get(position).getProperty("photo") != null) {
             if (!"".equalsIgnoreCase(listHelpers.get(position).getProperty("photo").toString())) {
                 Picasso.get().load(listHelpers.get(position).getProperty("photo").toString()).transform(new CircleTransform()).into(holder.fotoOpcion);
             }
         }
-        holder.datos.setText(listHelpers.get(position).getProperty("name") + " "
-                + listHelpers.get(position).getProperty("last_name"));
+        holder.datos.setText(listHelpers.get(position).getProperty("name").toString());
         return convertView;
     }
 
