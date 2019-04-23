@@ -2,7 +2,6 @@ package com.example.appforthem.Activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -34,7 +33,6 @@ import java.util.List;
 import static com.example.appforthem.Activities.LoginActivity.backendlessUser;
 
 public class Protector extends AppCompatActivity {
-
     private FloatingActionButton findProtector;
     private ProgressBar progressBar;
     private GridView gridHelper;
@@ -164,7 +162,6 @@ public class Protector extends AppCompatActivity {
             }
         });
     }
-
 
     public void showHelpersDialog(final RecyclerView recyclerView, String dataHelper) {
         Backendless.initApp(getApplicationContext(), BackendlessSettings.APPLICATION_ID_HELPERS, BackendlessSettings.ANDROID_SECRET_KEY_HELPERS);

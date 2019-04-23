@@ -17,6 +17,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,12 +44,14 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences sp;
     public static BackendlessUser backendlessUser;
     UserSessionManager userSessionManager;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         Backendless.initApp(getApplicationContext(), BackendlessSettings.APPLICATION_ID, BackendlessSettings.ANDROID_SECRET_KEY);
+        progressBar = findViewById(R.id.pbarLogin);
         View decorView = getWindow().getDecorView();
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
@@ -71,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                     CharSequence email = emailField.getText();
                     CharSequence password = passwordField.getText();
                     if (isLoginValuesValid(email, password)) {
-                        LoadingCallback<BackendlessUser> loginCallback = createLoginCallback();
+                        LoadingCallback<BackendlessUser> loginCallback = createLoginCallback(progressBar);
                         loginCallback.showLoading();
                         loginUser(email.toString(), password.toString(), loginCallback);
                     }
@@ -84,8 +87,6 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-
-
 
 
     }
@@ -121,8 +122,7 @@ public class LoginActivity extends AppCompatActivity {
                 CharSequence password = passwordField.getText();
 
                 if (isLoginValuesValid(email, password)) {
-                    LoadingCallback<BackendlessUser> loginCallback = createLoginCallback();
-
+                    LoadingCallback<BackendlessUser> loginCallback = createLoginCallback(progressBar);
                     loginCallback.showLoading();
                     loginUser(email.toString(), password.toString(), loginCallback);
                 }
@@ -140,8 +140,8 @@ public class LoginActivity extends AppCompatActivity {
         return Validator.isEmailValid(this, email) && Validator.isPasswordValid(this, password);
     }
 
-    public LoadingCallback<BackendlessUser> createLoginCallback() {
-        return new LoadingCallback<BackendlessUser>(this, getString(R.string.loading_login)) {
+    public LoadingCallback<BackendlessUser> createLoginCallback(ProgressBar progressBar) {
+        return new LoadingCallback<BackendlessUser>(this, progressBar) {
             @Override
             public void handleResponse(BackendlessUser loggedInUser) {
                 super.handleResponse(loggedInUser);
@@ -179,7 +179,7 @@ public class LoginActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoadingCallback<BackendlessUser> loginCallback = createLoginCallback();
+                LoadingCallback<BackendlessUser> loginCallback = createLoginCallback(progressBar);
 
                 loginCallback.showLoading();
                 loginFacebookUser(loginCallback);

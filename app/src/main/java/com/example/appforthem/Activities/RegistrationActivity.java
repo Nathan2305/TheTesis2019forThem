@@ -34,8 +34,8 @@ public class RegistrationActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
         Button registerButton = findViewById(R.id.registerButton);
-        View.OnClickListener registerButtonClickListener = createRegisterButtonClickListener();
-        registerButton.setOnClickListener(registerButtonClickListener);
+       // View.OnClickListener registerButtonClickListener = createRegisterButtonClickListener();
+      //  registerButton.setOnClickListener(registerButtonClickListener);
     }
 
     public boolean isRegistrationValuesValid(CharSequence name, CharSequence last_name, CharSequence email, CharSequence password,
@@ -67,9 +67,9 @@ public class RegistrationActivity extends AppCompatActivity {
         //Backendless handles password hashing by itself, so we don't need to send hash instead of plain text
         Backendless.UserService.register(user, registrationCallback);
     }
-
+/*
     public LoadingCallback<BackendlessUser> createRegistrationCallback() {
-        return new LoadingCallback<BackendlessUser>(this, getString(R.string.loading_register)) {
+        return new LoadingCallback<BackendlessUser>(this, progre) {
             @Override
             public void handleResponse(BackendlessUser registeredUser) {
                 super.handleResponse(registeredUser);
@@ -78,10 +78,10 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         };
     }
+*/
 
 
-
-
+/*
     public View.OnClickListener createRegisterButtonClickListener() {
         return new View.OnClickListener() {
             @Override
@@ -106,6 +106,6 @@ public class RegistrationActivity extends AppCompatActivity {
                 }
             }
         };
-    }
+    }*/
 
 }
