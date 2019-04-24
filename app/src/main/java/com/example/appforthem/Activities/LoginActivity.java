@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,10 +14,12 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,10 +44,10 @@ public class LoginActivity extends AppCompatActivity {
     EditText emailField;
     EditText passwordField;
     Button loginButton;
-    SharedPreferences sp;
     public static BackendlessUser backendlessUser;
     UserSessionManager userSessionManager;
     ProgressBar progressBar;
+    ConstraintLayout constraintLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         Backendless.initApp(getApplicationContext(), BackendlessSettings.APPLICATION_ID, BackendlessSettings.ANDROID_SECRET_KEY);
         progressBar = findViewById(R.id.pbarLogin);
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
+        constraintLayout = findViewById(R.id.parent);
         userSessionManager = new UserSessionManager(getApplicationContext());
         if (userSessionManager.isLoggedIn()) {
             backendlessUser = userSessionManager.getBackendlessUser();
@@ -74,6 +73,7 @@ public class LoginActivity extends AppCompatActivity {
                     CharSequence email = emailField.getText();
                     CharSequence password = passwordField.getText();
                     if (isLoginValuesValid(email, password)) {
+
                         LoadingCallback<BackendlessUser> loginCallback = createLoginCallback(progressBar);
                         loginCallback.showLoading();
                         loginUser(email.toString(), password.toString(), loginCallback);
@@ -87,8 +87,6 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     public void makeRegistrationLink() {
@@ -122,6 +120,7 @@ public class LoginActivity extends AppCompatActivity {
                 CharSequence password = passwordField.getText();
 
                 if (isLoginValuesValid(email, password)) {
+                    constraintLayout.animate().alpha(0.3f);
                     LoadingCallback<BackendlessUser> loginCallback = createLoginCallback(progressBar);
                     loginCallback.showLoading();
                     loginUser(email.toString(), password.toString(), loginCallback);
@@ -141,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public LoadingCallback<BackendlessUser> createLoginCallback(ProgressBar progressBar) {
-        return new LoadingCallback<BackendlessUser>(this, progressBar) {
+        return new LoadingCallback<BackendlessUser>(this, progressBar, constraintLayout) {
             @Override
             public void handleResponse(BackendlessUser loggedInUser) {
                 super.handleResponse(loggedInUser);
@@ -192,6 +191,5 @@ public class LoginActivity extends AppCompatActivity {
         fieldsMappings.put("name", "name");
         Backendless.UserService.loginWithFacebook(this, null, fieldsMappings, Collections.<String>emptyList(), loginCallback);
     }
-
 
 }

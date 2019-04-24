@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/parent"
     android:background="@drawable/background_login3"
     tools:context=".Activities.LoginActivity">
 
@@ -21,7 +22,7 @@
             android:backgroundTint="@color/translucent"
             android:padding="10dp"
             android:visibility="gone"
-            app:SpinKit_Color="@color/colorbuttonLogin"
+            app:SpinKit_Color="@color/colorbuttonFB"
             tools:ignore="MissingConstraints" />
 
         <LinearLayout
@@ -43,7 +44,7 @@
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/halloffame"
                 android:text="Care of Her"
-                android:textSize="75dp"
+                android:textSize="75sp"
                 android:textStyle="bold" />
 
 

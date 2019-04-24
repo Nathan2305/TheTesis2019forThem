@@ -2,6 +2,7 @@ package com.example.appforthem.Clases;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -14,6 +15,7 @@ public class LoadingCallback<T> implements AsyncCallback<T> {
     private Context context;
     private ProgressBar progressBar;
     private Circle circle;
+    private ConstraintLayout constraintLayout;
 
     /**
      * Create an instance with message "Loading...".
@@ -27,10 +29,11 @@ public class LoadingCallback<T> implements AsyncCallback<T> {
      *
      * @param context context to which ProgressDialog should be attached
      */
-    public LoadingCallback(Context context, ProgressBar aux_progressBar) {
+    public LoadingCallback(Context context, ProgressBar aux_progressBar, ConstraintLayout constraintLayout) {
         this.context = context;
         this.circle = new Circle();
         this.progressBar = aux_progressBar;
+        this.constraintLayout=constraintLayout;
         // progressDialog = new ProgressDialog( context );
         //progressDialog.setMessage( loadingMessage );
     }
@@ -44,6 +47,7 @@ public class LoadingCallback<T> implements AsyncCallback<T> {
     @Override
     public void handleFault(BackendlessFault fault) {
         progressBar.setVisibility(View.GONE);
+        constraintLayout.animate().alpha(1f);
         DialogHelper.createErrorDialog(context, "BackendlessFault", fault.getMessage()).show();
     }
 
@@ -51,6 +55,7 @@ public class LoadingCallback<T> implements AsyncCallback<T> {
      * Shows ProgressDialog.
      */
     public void showLoading() {
+        constraintLayout.animate().alpha(0.3f);
         progressBar.setVisibility(View.VISIBLE);
         progressBar.setProgressDrawable(circle);
         //progressDialog.show();
