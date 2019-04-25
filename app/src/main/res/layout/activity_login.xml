@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/parent"
     android:background="@drawable/background_login3"
     tools:context=".Activities.LoginActivity">
 
@@ -15,14 +15,15 @@
 
         <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/pbarLogin"
-            style="@style/SpinKitView.Circle"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            style="@style/SpinKitView.MultiplePulseRing"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
             android:layout_gravity="center"
+            android:fadeScrollbars="true"
             android:backgroundTint="@color/translucent"
             android:padding="10dp"
             android:visibility="gone"
-            app:SpinKit_Color="@color/colorbuttonFB"
+            app:SpinKit_Color="@color/progressBar"
             tools:ignore="MissingConstraints" />
 
         <LinearLayout
@@ -50,7 +51,7 @@
 
             <EditText
                 android:id="@+id/mail"
-                style="@style/mailLogin"
+                style="@style/mail_passLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email"
@@ -59,7 +60,7 @@
 
             <EditText
                 android:id="@+id/clave"
-                style="@style/passLogin"
+                style="@style/mail_passLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Contraseña"

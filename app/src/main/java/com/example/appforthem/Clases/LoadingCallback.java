@@ -1,20 +1,18 @@
 package com.example.appforthem.Clases;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.ProgressBar;
-
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
-import com.github.ybq.android.spinkit.style.Circle;
+import com.github.ybq.android.spinkit.style.MultiplePulseRing;
 
 public class LoadingCallback<T> implements AsyncCallback<T> {
 
     private Context context;
     private ProgressBar progressBar;
-    private Circle circle;
+    private MultiplePulseRing multiplePulseRing;
     private ConstraintLayout constraintLayout;
 
     /**
@@ -31,12 +29,10 @@ public class LoadingCallback<T> implements AsyncCallback<T> {
      */
     public LoadingCallback(Context context, ProgressBar aux_progressBar, ConstraintLayout constraintLayout) {
         this.context = context;
-        this.circle = new Circle();
+        this.multiplePulseRing = new MultiplePulseRing();
         this.progressBar = aux_progressBar;
         this.constraintLayout=constraintLayout;
-        // progressDialog = new ProgressDialog( context );
-        //progressDialog.setMessage( loadingMessage );
-    }
+      }
 
     @Override
     public void handleResponse(T response) {
@@ -55,10 +51,9 @@ public class LoadingCallback<T> implements AsyncCallback<T> {
      * Shows ProgressDialog.
      */
     public void showLoading() {
-        constraintLayout.animate().alpha(0.3f);
+        constraintLayout.animate().alpha(0.7f);
         progressBar.setVisibility(View.VISIBLE);
-        progressBar.setProgressDrawable(circle);
-        //progressDialog.show();
+        progressBar.setProgressDrawable(multiplePulseRing);
     }
 
     /**
