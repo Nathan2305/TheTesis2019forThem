@@ -28,7 +28,6 @@ import com.example.appforthem.Activities.CustomProgressBar;
 public class ServiceMap extends Service {
     LocationManager locationManager;
     LocationListener locationListener;
-    long tStart = 0L;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -69,7 +68,6 @@ public class ServiceMap extends Service {
         };
 
         locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
-
         //noinspection MissingPermission
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0, locationListener);
         return START_STICKY;
@@ -96,13 +94,7 @@ public class ServiceMap extends Service {
 
             }
         });
-        Long tEnd = System.currentTimeMillis();
     }
 
-    @SuppressLint("WrongConstant")
-    private void showProgressBar() {
-        tStart = System.currentTimeMillis();
-        startActivity(new Intent(getApplicationContext(), CustomProgressBar.class));
 
-    }
 }

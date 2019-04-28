@@ -39,6 +39,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.appforthem.Activities.Ajustes.isLogout;
+import static com.example.appforthem.Activities.HomeActivity.whereActivity;
+
 public class LoginActivity extends AppCompatActivity {
     private static final int REGISTER_REQUEST_CODE = 1;
     EditText emailField;
@@ -56,11 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         Backendless.initApp(getApplicationContext(), BackendlessSettings.APPLICATION_ID, BackendlessSettings.ANDROID_SECRET_KEY);
         progressBar = findViewById(R.id.pbarLogin);
         constraintLayout = findViewById(R.id.parent);
-        userSessionManager = new UserSessionManager(getApplicationContext());
-        if (userSessionManager.isLoggedIn()) {
-            backendlessUser = userSessionManager.getBackendlessUser();
-            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-        }
+        makeRegistrationLink();
         emailField = findViewById(R.id.mail);
         passwordField = findViewById(R.id.clave);
         loginButton = findViewById(R.id.login);
@@ -144,10 +143,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void handleResponse(BackendlessUser loggedInUser) {
                 super.handleResponse(loggedInUser);
-                userSessionManager = new UserSessionManager(getApplicationContext());
+                //   userSessionManager = new UserSessionManager(getApplicationContext());
                 userSessionManager.saveLogin();
                 userSessionManager.saveBackendlessUser(loggedInUser);
-                backendlessUser = loggedInUser;
+                backendlessUser = userSessionManager.getBackendlessUser();  //first logging
                 startActivity(new Intent(getApplicationContext(), HomeActivity.class));
             }
         };
@@ -192,4 +191,17 @@ public class LoginActivity extends AppCompatActivity {
         Backendless.UserService.loginWithFacebook(this, null, fieldsMappings, Collections.<String>emptyList(), loginCallback);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        userSessionManager = new UserSessionManager(getApplicationContext());
+        if (!isLogout) {
+            if (userSessionManager.isLoggedIn() && !HomeActivity.class.getSimpleName().equalsIgnoreCase(whereActivity)) {
+                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+            } else if (HomeActivity.class.getSimpleName().equalsIgnoreCase(whereActivity)) {
+                whereActivity = LoginActivity.class.getSimpleName();
+                finish();
+            }
+        }
+    }
 }

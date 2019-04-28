@@ -9,7 +9,6 @@ import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,17 +17,22 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.backendless.exceptions.BackendlessException;
 import com.example.appforthem.Clases.CustomAdapterOptions;
 import com.example.appforthem.Clases.ServiceMap;
+import com.example.appforthem.Clases.UserSessionManager;
 import com.example.appforthem.R;
+
 import static com.example.appforthem.Activities.LoginActivity.backendlessUser;
 
 public class HomeActivity extends AppCompatActivity {
+    public static String whereActivity = "";
     Button btn_alerta;
     TextView datosUser;
     String BTN_ALERTA = "";
     String BTN_STOP_ALERTA = "";
-    SharedPreferences sharedPreferences;
+    public static SharedPreferences sharedPreferences;
     SharedPreferences.Editor prefsEditor;
     GridView opciones;
 
@@ -39,7 +43,17 @@ public class HomeActivity extends AppCompatActivity {
         btn_alerta = findViewById(R.id.alert);
         opciones = findViewById(R.id.opciones);
         datosUser = findViewById(R.id.datosUser);
-        datosUser.setText(backendlessUser.getProperty("name").toString() + " " + backendlessUser.getProperty("last_name").toString());
+        if(!runtime_permissions()){
+            enable_buttons();
+        }
+        if (backendlessUser == null) {
+            backendlessUser = UserSessionManager.getBackendlessUser();
+        }
+        try {
+            datosUser.setText(backendlessUser.getProperty("name").toString() + " " + backendlessUser.getProperty("last_name").toString());
+        } catch (BackendlessException e) {
+            System.out.println("Exception trying to get BakcnleddUser - " + e.getMessage());
+        }
         BTN_ALERTA = "ENVIAR ALERTA";
         BTN_STOP_ALERTA = "DETENER ALERTA";
         int images[] = new int[]{R.drawable.alerta, R.drawable.camera_icon, R.drawable.woman_profil3, R.drawable.woman_face2,
@@ -53,23 +67,7 @@ public class HomeActivity extends AppCompatActivity {
         if (sharedPreferences != null && sharedPreferences.contains("BTN_TEXT_PRESSED")) {
             btn_alerta.setText(sharedPreferences.getString("BTN_TEXT_PRESSED", ""));
         }
-        btn_alerta.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (BTN_STOP_ALERTA.equalsIgnoreCase(btn_alerta.getText().toString())) {
-                    stopAlert();
-                    showToast("DETENER ALERTA");
-                    prefsEditor.putString("BTN_TEXT_PRESSED", BTN_ALERTA);
-                } else {
-                    sendAlert();
-                    prefsEditor.putString("BTN_TEXT_PRESSED", BTN_STOP_ALERTA);
 
-                }
-                prefsEditor.apply();
-                btn_alerta.setText(sharedPreferences.getString("BTN_TEXT_PRESSED", ""));
-
-            }
-        });
 
         opciones.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -87,10 +85,6 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    @SuppressLint("WrongConstant")
-    private void showProgressBar() {
-        startActivity(new Intent(getApplicationContext(), CustomProgressBar.class));
-    }
 
     private void stopAlert() {
         stopService(new Intent(this, ServiceMap.class));
@@ -135,20 +129,36 @@ public class HomeActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 100) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                //enableAlerta();
+                enable_buttons();
             } else {
                 runtime_permissions();
             }
         }
     }
 
-    /*
-    private void enableAlerta() {
+    private void enable_buttons() {
+
         btn_alerta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendAlert();
+                if (BTN_STOP_ALERTA.equalsIgnoreCase(btn_alerta.getText().toString())) {
+                    stopAlert();
+                    showToast("DETENER ALERTA");
+                    prefsEditor.putString("BTN_TEXT_PRESSED", BTN_ALERTA);
+                } else {
+                    sendAlert();
+                    prefsEditor.putString("BTN_TEXT_PRESSED", BTN_STOP_ALERTA);
+
+                }
+                prefsEditor.apply();
+                btn_alerta.setText(sharedPreferences.getString("BTN_TEXT_PRESSED", ""));
             }
         });
-    }*/
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        whereActivity = HomeActivity.class.getSimpleName();
+    }
 }

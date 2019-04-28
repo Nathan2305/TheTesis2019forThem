@@ -9,18 +9,19 @@ import com.google.gson.Gson;
 import static android.content.Context.MODE_PRIVATE;
 
 public class UserSessionManager {
-    private SharedPreferences sp;
+    public static SharedPreferences sp;
     private BackendlessUser backendlessUser;
     private Context context;
-    private SharedPreferences.Editor prefsEditor;
+    public static SharedPreferences.Editor prefsEditor;
 
     public UserSessionManager(Context context) {
         this.context = context;
-        sp = context.getSharedPreferences("LOGIN", MODE_PRIVATE);
+        sp = this.context.getSharedPreferences("LOGIN", MODE_PRIVATE);
     }
 
     public boolean isLoggedIn() {
-        return sp != null && sp.contains("userLoggedIn") && sp.getBoolean("userLoggedIn", true) ?  true :false;
+      //  return sp != null && sp.contains("userLoggedIn") && sp.getBoolean("userLoggedIn", true) ?  true :false;
+        return sp != null && sp.contains("userLoggedIn") && sp.getBoolean("userLoggedIn", true);
     }
 
     public void saveLogin() {
@@ -38,13 +39,20 @@ public class UserSessionManager {
         prefsEditor.apply();
 
     }
-    public String getUserObject(){
+    public static String getUserObject(){
         return sp.getString("backendlessUser", "");
     }
 
-    public BackendlessUser getBackendlessUser(){
+    public static BackendlessUser getBackendlessUser(){
         String userObject = getUserObject();
         Gson gson = new Gson();
         return gson.fromJson(userObject, BackendlessUser.class);
+    }
+
+    public static void removeAll(){
+        sp=null;
+        prefsEditor.clear().commit();
+        //prefsEditor.putBoolean("userLoggedIn", false);
+
     }
 }

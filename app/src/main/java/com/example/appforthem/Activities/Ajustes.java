@@ -1,17 +1,26 @@
 package com.example.appforthem.Activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import com.backendless.Backendless;
+import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
+import com.backendless.exceptions.BackendlessException;
 import com.backendless.exceptions.BackendlessFault;
+import com.example.appforthem.Clases.BackendlessSettings;
+import com.example.appforthem.Clases.UserSessionManager;
 import com.example.appforthem.R;
 
-public class Ajustes extends AppCompatActivity {
+import static com.example.appforthem.Activities.HomeActivity.sharedPreferences;
+import static com.example.appforthem.Activities.HomeActivity.whereActivity;
+import static com.example.appforthem.Activities.LoginActivity.backendlessUser;
 
+public class Ajustes extends AppCompatActivity {
+public static boolean isLogout=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,20 +28,5 @@ public class Ajustes extends AppCompatActivity {
 
     }
 
-    public void Logout(View view) {
-        Backendless.UserService.logout(new AsyncCallback<Void>() {
-            @Override
-            public void handleResponse(Void response) {
-                //System.out.println("USER LOG OUT");
-                Toast.makeText(getApplicationContext(),"USER LOG OUT",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void handleFault(BackendlessFault fault) {
-               // System.out.println("ERROR LOGING OUT - " + fault.getMessage() );
-                Toast.makeText(getApplicationContext(),"ERROR LOGING OUT - " + fault.getMessage(),Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
 }

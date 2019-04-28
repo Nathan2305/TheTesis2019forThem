@@ -3,15 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent"
     android:layout_width="match_parent"
+    android:padding="10dp"
     android:layout_height="match_parent"
     android:background="@drawable/background_login3"
     tools:context=".Activities.LoginActivity">
 
-
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="10dp">
+        android:layout_height="match_parent">
 
         <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/pbarLogin"
@@ -36,7 +35,6 @@
             <ImageView
                 android:layout_width="100dp"
                 android:layout_height="160dp"
-                android:layout_margin="20dp"
                 android:src="@drawable/woman_face2" />
 
             <TextView
@@ -92,7 +90,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:layout_marginTop="10sp"
                 android:text="¿Olvidaste tu contraseña?"
                 android:textColor="@color/white"
                 android:textSize="17sp" />
