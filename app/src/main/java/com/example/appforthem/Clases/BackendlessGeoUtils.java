@@ -7,9 +7,12 @@ import com.backendless.Backendless;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.geo.GeoPoint;
+import com.backendless.messaging.MessageStatus;
 
 import java.util.ArrayList;
 import java.util.Map;
+
+import static com.example.appforthem.Activities.LoginActivity.backendlessUser;
 
 public class BackendlessGeoUtils {
 
@@ -26,6 +29,19 @@ public class BackendlessGeoUtils {
             }
         });
     }
+        public static void sendtoChannel(double lat, double lon,String channelName){
+            Backendless.Messaging.publish(channelName, lat + " ; " + lon, null, new AsyncCallback<MessageStatus>() {
+                @Override
+                public void handleResponse(MessageStatus response) {
+
+                }
+
+                @Override
+                public void handleFault(BackendlessFault fault) {
+
+                }
+            });
+        }
 
 
 }

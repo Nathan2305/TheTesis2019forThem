@@ -2,10 +2,16 @@ package com.example.appforthem.Activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Build;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,8 +22,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.backendless.exceptions.BackendlessException;
 import com.example.appforthem.Clases.CustomAdapterOptions;
 import com.example.appforthem.Clases.ServiceMap;
@@ -30,8 +34,8 @@ public class HomeActivity extends AppCompatActivity {
     public static String whereActivity = "";
     Button btn_alerta;
     TextView datosUser;
-    String BTN_ALERTA = "";
-    String BTN_STOP_ALERTA = "";
+    String BTN_ENVIAR_ALERTA = "";
+    String TEXT_ALERTA_ENVIADA = "";
     public static SharedPreferences sharedPreferences;
     SharedPreferences.Editor prefsEditor;
     GridView opciones;
@@ -43,7 +47,7 @@ public class HomeActivity extends AppCompatActivity {
         btn_alerta = findViewById(R.id.alert);
         opciones = findViewById(R.id.opciones);
         datosUser = findViewById(R.id.datosUser);
-        if(!runtime_permissions()){
+        if (!runtime_permissions()) {
             enable_buttons();
         }
         if (backendlessUser == null) {
@@ -52,10 +56,10 @@ public class HomeActivity extends AppCompatActivity {
         try {
             datosUser.setText(backendlessUser.getProperty("name").toString() + " " + backendlessUser.getProperty("last_name").toString());
         } catch (BackendlessException e) {
-            System.out.println("Exception trying to get BakcnleddUser - " + e.getMessage());
+            System.out.println("Exception trying to get BackendlessUser - " + e.getMessage());
         }
-        BTN_ALERTA = "ENVIAR ALERTA";
-        BTN_STOP_ALERTA = "DETENER ALERTA";
+        BTN_ENVIAR_ALERTA = "ENVIAR ALERTA";
+        TEXT_ALERTA_ENVIADA="ALERTA ENVIADA";
         int images[] = new int[]{R.drawable.alerta, R.drawable.camera_icon, R.drawable.woman_profil3, R.drawable.woman_face2,
                 R.drawable.woman_profile2, R.drawable.settings};
         String titulo[] = new String[]{"Protector", "Opcion 2", "Opcion 3", "Opcion 4", "Opcion 5", "Ajustes"};
@@ -64,8 +68,18 @@ public class HomeActivity extends AppCompatActivity {
         sharedPreferences = getApplicationContext().getSharedPreferences("HOME", MODE_PRIVATE);
         prefsEditor = sharedPreferences.edit();
 
-        if (sharedPreferences != null && sharedPreferences.contains("BTN_TEXT_PRESSED")) {
-            btn_alerta.setText(sharedPreferences.getString("BTN_TEXT_PRESSED", ""));
+        if (sharedPreferences != null) {
+            if (sharedPreferences.contains("BTN_TEXT_PRESSED")) {
+                btn_alerta.setText(sharedPreferences.getString("BTN_TEXT_PRESSED", ""));
+            }
+            if (sharedPreferences.contains("BTN_ENABLED")) {
+                btn_alerta.setEnabled(sharedPreferences.getBoolean("BTN_ENABLED", true));
+            }
+            if (sharedPreferences.contains("COLOR_BTN")) {
+                btn_alerta.setBackgroundColor(sharedPreferences.getInt("COLOR_BTN", 0));
+            }
+
+
         }
 
 
@@ -107,12 +121,10 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void sendAlert() {
+
         startService(new Intent(this, ServiceMap.class));
     }
 
-    void showToast(String msg) {
-        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-    }
 
     private boolean runtime_permissions() {
         if (Build.VERSION.SDK_INT >= 23 &&
@@ -141,17 +153,16 @@ public class HomeActivity extends AppCompatActivity {
         btn_alerta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (BTN_STOP_ALERTA.equalsIgnoreCase(btn_alerta.getText().toString())) {
-                    stopAlert();
-                    showToast("DETENER ALERTA");
-                    prefsEditor.putString("BTN_TEXT_PRESSED", BTN_ALERTA);
-                } else {
-                    sendAlert();
-                    prefsEditor.putString("BTN_TEXT_PRESSED", BTN_STOP_ALERTA);
-
+                if (BTN_ENVIAR_ALERTA.equalsIgnoreCase(btn_alerta.getText().toString())) {
+                    //sendAlert();
+                    prefsEditor.putString("BTN_TEXT_PRESSED", TEXT_ALERTA_ENVIADA);
+                    prefsEditor.putBoolean("BTN_ENABLED", false);
+                    prefsEditor.putInt("COLOR_BTN",R.color.disableView);
                 }
                 prefsEditor.apply();
                 btn_alerta.setText(sharedPreferences.getString("BTN_TEXT_PRESSED", ""));
+                btn_alerta.setEnabled(sharedPreferences.getBoolean("BTN_ENABLED",true));
+                btn_alerta.setBackgroundColor(sharedPreferences.getInt("COLOR_BTN",0));
             }
         });
     }
@@ -160,5 +171,12 @@ public class HomeActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         whereActivity = HomeActivity.class.getSimpleName();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        /*Intent intent = new Intent(HomeActivity.this, ServiceMap.class);
+        stopService(intent);*/
     }
 }

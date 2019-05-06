@@ -13,4 +13,5 @@
     <color name="colorNaranja">#FF9800</color>
     <color name="translucent">#0000ffff</color>
     <color name="progressBar">#EEFF41</color>
+    <color name="disableView">#C2BFBF</color>
 </resources>

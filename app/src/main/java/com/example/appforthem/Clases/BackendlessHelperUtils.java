@@ -16,7 +16,7 @@ import java.util.List;
 public class BackendlessHelperUtils {
 
 /*
-    public static List<BackendlessUser> findHelpersFromBackend(Context context, List<Helper> list) {
+    public static List<BackendlessUser> findHelpersFromBackend(Context context, List<Helper> listaAjustes) {
        final List<BackendlessUser> helpers = null;
         Backendless.initApp(context, BackendlessSettings.APPLICATION_ID_HELPERS, BackendlessSettings.ANDROID_SECRET_KEY_HELPERS);
         Backendless.Data.of(BackendlessUser.class).find(new AsyncCallback<List<BackendlessUser>>() {
