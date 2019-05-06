@@ -1,17 +1,10 @@
 package com.example.appforthem.Activities;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Build;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
+
 import com.backendless.exceptions.BackendlessException;
 import com.example.appforthem.Clases.CustomAdapterOptions;
 import com.example.appforthem.Clases.ServiceMap;
@@ -32,13 +26,14 @@ import static com.example.appforthem.Activities.LoginActivity.backendlessUser;
 
 public class HomeActivity extends AppCompatActivity {
     public static String whereActivity = "";
-    Button btn_alerta;
-    TextView datosUser;
-    String BTN_ENVIAR_ALERTA = "";
-    String TEXT_ALERTA_ENVIADA = "";
+    private Button btn_alerta;
+    private TextView datosUser;
+    private String BTN_ENVIAR_ALERTA = "";
+    private String TEXT_ALERTA_ENVIADA = "";
     public static SharedPreferences sharedPreferences;
-    SharedPreferences.Editor prefsEditor;
-    GridView opciones;
+    private SharedPreferences.Editor prefsEditor;
+    private GridView opciones;
+    public static boolean activeAlarm = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +54,7 @@ public class HomeActivity extends AppCompatActivity {
             System.out.println("Exception trying to get BackendlessUser - " + e.getMessage());
         }
         BTN_ENVIAR_ALERTA = "ENVIAR ALERTA";
-        TEXT_ALERTA_ENVIADA="ALERTA ENVIADA";
+        TEXT_ALERTA_ENVIADA = "ALERTA ENVIADA";
         int images[] = new int[]{R.drawable.alerta, R.drawable.camera_icon, R.drawable.woman_profil3, R.drawable.woman_face2,
                 R.drawable.woman_profile2, R.drawable.settings};
         String titulo[] = new String[]{"Protector", "Opcion 2", "Opcion 3", "Opcion 4", "Opcion 5", "Ajustes"};
@@ -155,14 +150,16 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (BTN_ENVIAR_ALERTA.equalsIgnoreCase(btn_alerta.getText().toString())) {
                     //sendAlert();
+                    activeAlarm = true;
                     prefsEditor.putString("BTN_TEXT_PRESSED", TEXT_ALERTA_ENVIADA);
                     prefsEditor.putBoolean("BTN_ENABLED", false);
-                    prefsEditor.putInt("COLOR_BTN",R.color.disableView);
+                    prefsEditor.putBoolean("ALARMA_ACTIVA",activeAlarm);
+                    prefsEditor.putInt("COLOR_BTN", R.color.disableView);
                 }
                 prefsEditor.apply();
                 btn_alerta.setText(sharedPreferences.getString("BTN_TEXT_PRESSED", ""));
-                btn_alerta.setEnabled(sharedPreferences.getBoolean("BTN_ENABLED",true));
-                btn_alerta.setBackgroundColor(sharedPreferences.getInt("COLOR_BTN",0));
+                btn_alerta.setEnabled(sharedPreferences.getBoolean("BTN_ENABLED", true));
+                btn_alerta.setBackgroundColor(sharedPreferences.getInt("COLOR_BTN", 0));
             }
         });
     }

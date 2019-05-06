@@ -1,6 +1,7 @@
 package com.example.appforthem.Activities;
 
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import com.example.appforthem.Clases.BackendlessGeoUtils;
 import com.example.appforthem.Clases.BackendlessHelperUtils;
 import com.example.appforthem.Clases.BackendlessSettings;
 import com.example.appforthem.R;
+import com.example.appforthem.SettingsActivities.AlertaSettings;
 
 
 public class Ajustes extends AppCompatActivity {
@@ -34,8 +36,11 @@ public class Ajustes extends AppCompatActivity {
         adapterForAjustes.setOnItemClickListener(new AdapterForAjustes.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                //changeItem(position, "Clicked");
-                BackendlessSettings.showToast(getApplicationContext(),"PRESIONASTE "+ position);
+                switch (position) {
+                    case 0:
+                        startActivity(new Intent(getApplicationContext(), AlertaSettings.class));
+                        break;
+                }
             }
 
             @Override
