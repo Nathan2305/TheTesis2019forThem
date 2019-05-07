@@ -17,6 +17,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.backendless.exceptions.BackendlessException;
+import com.example.appforthem.Clases.Constants;
 import com.example.appforthem.Clases.CustomAdapterOptions;
 import com.example.appforthem.Clases.ServiceMap;
 import com.example.appforthem.Clases.UserSessionManager;
@@ -28,12 +29,10 @@ public class HomeActivity extends AppCompatActivity {
     public static String whereActivity = "";
     private Button btn_alerta;
     private TextView datosUser;
-    private String BTN_ENVIAR_ALERTA = "";
-    private String TEXT_ALERTA_ENVIADA = "";
+
     public static SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor prefsEditor;
+    public static SharedPreferences.Editor prefsEditor;
     private GridView opciones;
-    public static boolean activeAlarm = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +52,7 @@ public class HomeActivity extends AppCompatActivity {
         } catch (BackendlessException e) {
             System.out.println("Exception trying to get BackendlessUser - " + e.getMessage());
         }
-        BTN_ENVIAR_ALERTA = "ENVIAR ALERTA";
-        TEXT_ALERTA_ENVIADA = "ALERTA ENVIADA";
+
         int images[] = new int[]{R.drawable.alerta, R.drawable.camera_icon, R.drawable.woman_profil3, R.drawable.woman_face2,
                 R.drawable.woman_profile2, R.drawable.settings};
         String titulo[] = new String[]{"Protector", "Opcion 2", "Opcion 3", "Opcion 4", "Opcion 5", "Ajustes"};
@@ -64,11 +62,11 @@ public class HomeActivity extends AppCompatActivity {
         prefsEditor = sharedPreferences.edit();
 
         if (sharedPreferences != null) {
-            if (sharedPreferences.contains("BTN_TEXT_PRESSED")) {
-                btn_alerta.setText(sharedPreferences.getString("BTN_TEXT_PRESSED", ""));
+            if (sharedPreferences.contains(Constants.BTN_TXT_VALUE)) {
+                btn_alerta.setText(sharedPreferences.getString(Constants.BTN_TXT_VALUE, ""));
             }
-            if (sharedPreferences.contains("BTN_ENABLED")) {
-                btn_alerta.setEnabled(sharedPreferences.getBoolean("BTN_ENABLED", true));
+            if (sharedPreferences.contains(Constants.BTN_ENABLED)) {
+                btn_alerta.setEnabled(sharedPreferences.getBoolean(Constants.BTN_ENABLED, true));
             }
             if (sharedPreferences.contains("COLOR_BTN")) {
                 btn_alerta.setBackgroundColor(sharedPreferences.getInt("COLOR_BTN", 0));
@@ -148,17 +146,16 @@ public class HomeActivity extends AppCompatActivity {
         btn_alerta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (BTN_ENVIAR_ALERTA.equalsIgnoreCase(btn_alerta.getText().toString())) {
+                if (Constants.ENVIAR_ALERTA.equalsIgnoreCase(btn_alerta.getText().toString())) {
                     //sendAlert();
-                    activeAlarm = true;
-                    prefsEditor.putString("BTN_TEXT_PRESSED", TEXT_ALERTA_ENVIADA);
-                    prefsEditor.putBoolean("BTN_ENABLED", false);
-                    prefsEditor.putBoolean("ALARMA_ACTIVA",activeAlarm);
+                    prefsEditor.putString(Constants.BTN_TXT_VALUE, "Alerta Enviada");
+                    prefsEditor.putBoolean(Constants.BTN_ENABLED, false);
+                    prefsEditor.putBoolean(Constants.ALARMA_ACTIVA,true);
                     prefsEditor.putInt("COLOR_BTN", R.color.disableView);
                 }
                 prefsEditor.apply();
-                btn_alerta.setText(sharedPreferences.getString("BTN_TEXT_PRESSED", ""));
-                btn_alerta.setEnabled(sharedPreferences.getBoolean("BTN_ENABLED", true));
+                btn_alerta.setText(sharedPreferences.getString(Constants.BTN_TXT_VALUE, ""));
+                btn_alerta.setEnabled(sharedPreferences.getBoolean(Constants.BTN_ENABLED, true));
                 btn_alerta.setBackgroundColor(sharedPreferences.getInt("COLOR_BTN", 0));
             }
         });
