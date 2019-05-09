@@ -1,5 +1,7 @@
 package com.example.appforthem.SettingsActivities;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.CompoundButton;
@@ -12,39 +14,81 @@ import static com.example.appforthem.Activities.HomeActivity.prefsEditor;
 import static com.example.appforthem.Activities.HomeActivity.sharedPreferences;
 
 public class AlertaSettings extends AppCompatActivity {
-        private Switch aSwitch;
+    private Switch switchAlarma;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alerta_settings);
-        aSwitch=findViewById(R.id.switch_alerta);
-        if (sharedPreferences != null){
-            if (sharedPreferences.contains(Constants.BTN_TXT_VALUE)){
-               /*if (sharedPreferences.getBoolean(Constants.ALARMA_ACTIVA, true)){
-                    aSwitch.setText(getResources().getString(R.string.alarma_en_curso_msg));
-                }else{
-                    aSwitch.setText(getResources().getString(R.string.alarma_sin_activar_msg));
-                }*/
-                aSwitch.setChecked(sharedPreferences.getBoolean(Constants.ALARMA_ACTIVA, true));
-                aSwitch.setText(sharedPreferences.getString(Constants.BTN_TXT_VALUE,""));
-
+        switchAlarma = findViewById(R.id.switch_alerta);
+        if (sharedPreferences != null) {
+            if (sharedPreferences.contains(Constants.BTN_ENABLED)) {
+                prefsEditor = sharedPreferences.edit();
+                if (sharedPreferences.getBoolean(Constants.BTN_ENABLED, true)) {
+                    prefsEditor.putString(Constants.SWITCH_ALARMA_TEXT, Constants.DESACTIVAR_ALARMA);
+                    prefsEditor.putBoolean(Constants.ALARMA_ACTIVA,false);
+                } else {
+                    prefsEditor.putString(Constants.SWITCH_ALARMA_TEXT, Constants.ACTIVAR_ALARMA);
+                    prefsEditor.putBoolean(Constants.ALARMA_ACTIVA,true);
+                }
+            } else {
+                prefsEditor.putString(Constants.SWITCH_ALARMA_TEXT, Constants.ACTIVAR_ALARMA);
+                prefsEditor.putBoolean(Constants.ALARMA_ACTIVA,false);
             }
+            prefsEditor.apply();
+            switchAlarma.setChecked(sharedPreferences.getBoolean(Constants.ALARMA_ACTIVA, true));
+            switchAlarma.setText(sharedPreferences.getString(Constants.SWITCH_ALARMA_TEXT, ""));
+            /*if (sharedPreferences.contains(Constants.BTN_TXT_VALUE)) {
+                switchAlarma.setChecked(sharedPreferences.getBoolean(Constants.ALARMA_ACTIVA, true));
+                // switchAlarma.setText(sharedPreferences.getString(Constants.BTN_TXT_VALUE, ""));
+                switchAlarma.setText(Constants.DESACTIVAR_ALARMA);
+            } else {
+                switchAlarma.setText(Constants.ACTIVAR_ALARMA);
+            }*/
+
         }
-        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        switchAlarma.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (!isChecked){  //DESACTIVAR ALARMA
-                        prefsEditor.putBoolean(Constants.ALARMA_ACTIVA,false);
-                        prefsEditor.putBoolean(Constants.BTN_ENABLED,true);
-                        prefsEditor.putString(Constants.BTN_TXT_VALUE,"Enviar Alerta");
-                    }else{  // ACTIVAR ALARMA
-                        prefsEditor.putBoolean(Constants.ALARMA_ACTIVA,true);
-                        prefsEditor.putBoolean(Constants.BTN_ENABLED,false);
-                        prefsEditor.putString(Constants.BTN_TXT_VALUE,"Alerta Enviada");
-                    }
+                if (!isChecked) {  //DESACTIVAR ALARMA
+                    // showDialogPromtToCancelAlert();
+                    prefsEditor.putBoolean(Constants.ALARMA_ACTIVA, false);
+                    prefsEditor.putBoolean(Constants.BTN_ENABLED, true);
+                    prefsEditor.putString(Constants.BTN_TXT_VALUE, "ENVIAR ALERTA");
+                    prefsEditor.putString(Constants.SWITCH_ALARMA_TEXT, Constants.ACTIVAR_ALARMA);
+                } else {  // ACTIVAR ALARMA
+                    prefsEditor.putBoolean(Constants.ALARMA_ACTIVA, true);
+                    prefsEditor.putBoolean(Constants.BTN_ENABLED, false);
+                    prefsEditor.putString(Constants.BTN_TXT_VALUE, "ALERTA ENVIADA");
+                    prefsEditor.putString(Constants.SWITCH_ALARMA_TEXT, Constants.DESACTIVAR_ALARMA);
+                }
                 prefsEditor.apply();
-                aSwitch.setText(sharedPreferences.getString(Constants.BTN_TXT_VALUE,""));
+                switchAlarma.setText(sharedPreferences.getString(Constants.SWITCH_ALARMA_TEXT, ""));
             }
         });
     }
+
+    private void showDialogPromtToCancelAlert() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setMessage("¿Desea cancelar la alarma?").
+                setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        prefsEditor.putBoolean(Constants.ALARMA_ACTIVA, false);
+                        prefsEditor.putBoolean(Constants.BTN_ENABLED, true);
+                        prefsEditor.putString(Constants.BTN_TXT_VALUE, "ENVIAR ALERTA");
+                    }
+                }).
+                setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        prefsEditor.putBoolean(Constants.ALARMA_ACTIVA, true);
+                        prefsEditor.putBoolean(Constants.ALARMA_ACTIVA, true);
+                    }
+                });
+        dialog.setCancelable(false);
+        dialog.create();
+        dialog.show();
+    }
+
 }

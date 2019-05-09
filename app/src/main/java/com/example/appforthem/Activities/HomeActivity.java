@@ -29,7 +29,6 @@ public class HomeActivity extends AppCompatActivity {
     public static String whereActivity = "";
     private Button btn_alerta;
     private TextView datosUser;
-
     public static SharedPreferences sharedPreferences;
     public static SharedPreferences.Editor prefsEditor;
     private GridView opciones;
@@ -58,22 +57,9 @@ public class HomeActivity extends AppCompatActivity {
         String titulo[] = new String[]{"Protector", "Opcion 2", "Opcion 3", "Opcion 4", "Opcion 5", "Ajustes"};
         CustomAdapterOptions adapterOptions = new CustomAdapterOptions(getApplicationContext(), images, titulo);
         opciones.setAdapter(adapterOptions);
+
         sharedPreferences = getApplicationContext().getSharedPreferences("HOME", MODE_PRIVATE);
         prefsEditor = sharedPreferences.edit();
-
-        if (sharedPreferences != null) {
-            if (sharedPreferences.contains(Constants.BTN_TXT_VALUE)) {
-                btn_alerta.setText(sharedPreferences.getString(Constants.BTN_TXT_VALUE, ""));
-            }
-            if (sharedPreferences.contains(Constants.BTN_ENABLED)) {
-                btn_alerta.setEnabled(sharedPreferences.getBoolean(Constants.BTN_ENABLED, true));
-            }
-            if (sharedPreferences.contains("COLOR_BTN")) {
-                btn_alerta.setBackgroundColor(sharedPreferences.getInt("COLOR_BTN", 0));
-            }
-
-
-        }
 
 
         opciones.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -86,12 +72,29 @@ public class HomeActivity extends AppCompatActivity {
                     case 5:
                         startActivity(new Intent(getApplicationContext(), Ajustes.class));
                         break;
-
                 }
             }
         });
     }
 
+    private void enable_buttons() {
+        btn_alerta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Constants.ENVIAR_ALERTA.equalsIgnoreCase(btn_alerta.getText().toString())) {
+                    //sendAlert();
+                    prefsEditor.putString(Constants.BTN_TXT_VALUE, "ALERTA ENVIADA");
+                    prefsEditor.putBoolean(Constants.BTN_ENABLED, false);
+                    prefsEditor.putBoolean(Constants.ALARMA_ACTIVA, true);
+                    //prefsEditor.putInt("COLOR_BTN", R.color.disableView);
+                    prefsEditor.apply();
+                    btn_alerta.setText(sharedPreferences.getString(Constants.BTN_TXT_VALUE, ""));
+                    btn_alerta.setEnabled(sharedPreferences.getBoolean(Constants.BTN_ENABLED, true));
+                    //btn_alerta.setBackgroundColor(sharedPreferences.getInt("COLOR_BTN", 0));
+                }
+            }
+        });
+    }
 
     private void stopAlert() {
         stopService(new Intent(this, ServiceMap.class));
@@ -141,30 +144,22 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    private void enable_buttons() {
-
-        btn_alerta.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Constants.ENVIAR_ALERTA.equalsIgnoreCase(btn_alerta.getText().toString())) {
-                    //sendAlert();
-                    prefsEditor.putString(Constants.BTN_TXT_VALUE, "Alerta Enviada");
-                    prefsEditor.putBoolean(Constants.BTN_ENABLED, false);
-                    prefsEditor.putBoolean(Constants.ALARMA_ACTIVA,true);
-                    prefsEditor.putInt("COLOR_BTN", R.color.disableView);
-                }
-                prefsEditor.apply();
-                btn_alerta.setText(sharedPreferences.getString(Constants.BTN_TXT_VALUE, ""));
-                btn_alerta.setEnabled(sharedPreferences.getBoolean(Constants.BTN_ENABLED, true));
-                btn_alerta.setBackgroundColor(sharedPreferences.getInt("COLOR_BTN", 0));
-            }
-        });
-    }
 
     @Override
     protected void onResume() {
         super.onResume();
         whereActivity = HomeActivity.class.getSimpleName();
+        if (sharedPreferences != null) {
+            if (sharedPreferences.contains(Constants.BTN_TXT_VALUE)) {
+                btn_alerta.setText(sharedPreferences.getString(Constants.BTN_TXT_VALUE, ""));
+            }
+            if (sharedPreferences.contains(Constants.BTN_ENABLED)) {
+                btn_alerta.setEnabled(sharedPreferences.getBoolean(Constants.BTN_ENABLED, true));
+            }
+            if (sharedPreferences.contains("COLOR_BTN")) {
+                btn_alerta.setBackgroundColor(sharedPreferences.getInt("COLOR_BTN", 0));
+            }
+        }
     }
 
     @Override
