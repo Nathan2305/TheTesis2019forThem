@@ -21,31 +21,24 @@ public class AlertaSettings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alerta_settings);
         switchAlarma = findViewById(R.id.switch_alerta);
+
         if (sharedPreferences != null) {
             if (sharedPreferences.contains(Constants.BTN_ENABLED)) {
                 prefsEditor = sharedPreferences.edit();
-                if (sharedPreferences.getBoolean(Constants.BTN_ENABLED, true)) {
-                    prefsEditor.putString(Constants.SWITCH_ALARMA_TEXT, Constants.DESACTIVAR_ALARMA);
-                    prefsEditor.putBoolean(Constants.ALARMA_ACTIVA,false);
-                } else {
+                if (sharedPreferences.getBoolean(Constants.BTN_ENABLED, false)) {
                     prefsEditor.putString(Constants.SWITCH_ALARMA_TEXT, Constants.ACTIVAR_ALARMA);
-                    prefsEditor.putBoolean(Constants.ALARMA_ACTIVA,true);
+                    prefsEditor.putBoolean(Constants.ALARMA_ACTIVA, false);
+                } else {
+                    prefsEditor.putString(Constants.SWITCH_ALARMA_TEXT, Constants.DESACTIVAR_ALARMA);
+                    prefsEditor.putBoolean(Constants.ALARMA_ACTIVA, true);
                 }
             } else {
                 prefsEditor.putString(Constants.SWITCH_ALARMA_TEXT, Constants.ACTIVAR_ALARMA);
-                prefsEditor.putBoolean(Constants.ALARMA_ACTIVA,false);
+                prefsEditor.putBoolean(Constants.ALARMA_ACTIVA, false);
             }
             prefsEditor.apply();
             switchAlarma.setChecked(sharedPreferences.getBoolean(Constants.ALARMA_ACTIVA, true));
             switchAlarma.setText(sharedPreferences.getString(Constants.SWITCH_ALARMA_TEXT, ""));
-            /*if (sharedPreferences.contains(Constants.BTN_TXT_VALUE)) {
-                switchAlarma.setChecked(sharedPreferences.getBoolean(Constants.ALARMA_ACTIVA, true));
-                // switchAlarma.setText(sharedPreferences.getString(Constants.BTN_TXT_VALUE, ""));
-                switchAlarma.setText(Constants.DESACTIVAR_ALARMA);
-            } else {
-                switchAlarma.setText(Constants.ACTIVAR_ALARMA);
-            }*/
-
         }
         switchAlarma.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

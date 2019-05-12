@@ -154,7 +154,7 @@ public class HomeActivity extends AppCompatActivity {
                 btn_alerta.setText(sharedPreferences.getString(Constants.BTN_TXT_VALUE, ""));
             }
             if (sharedPreferences.contains(Constants.BTN_ENABLED)) {
-                btn_alerta.setEnabled(sharedPreferences.getBoolean(Constants.BTN_ENABLED, true));
+                btn_alerta.setEnabled(sharedPreferences.getBoolean(Constants.BTN_ENABLED, false));
             }
             if (sharedPreferences.contains("COLOR_BTN")) {
                 btn_alerta.setBackgroundColor(sharedPreferences.getInt("COLOR_BTN", 0));
