@@ -44,39 +44,43 @@ public class AlertaSettings extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (!isChecked) {  //DESACTIVAR ALARMA
-                    // showDialogPromtToCancelAlert();
-                    prefsEditor.putBoolean(Constants.ALARMA_ACTIVA, false);
-                    prefsEditor.putBoolean(Constants.BTN_ENABLED, true);
-                    prefsEditor.putString(Constants.BTN_TXT_VALUE, "ENVIAR ALERTA");
-                    prefsEditor.putString(Constants.SWITCH_ALARMA_TEXT, Constants.ACTIVAR_ALARMA);
+                    showDialogPromtToCancelAlert();
                 } else {  // ACTIVAR ALARMA
                     prefsEditor.putBoolean(Constants.ALARMA_ACTIVA, true);
                     prefsEditor.putBoolean(Constants.BTN_ENABLED, false);
                     prefsEditor.putString(Constants.BTN_TXT_VALUE, "ALERTA ENVIADA");
                     prefsEditor.putString(Constants.SWITCH_ALARMA_TEXT, Constants.DESACTIVAR_ALARMA);
+                    prefsEditor.apply();
+                    switchAlarma.setText(sharedPreferences.getString(Constants.SWITCH_ALARMA_TEXT, ""));
                 }
-                prefsEditor.apply();
-                switchAlarma.setText(sharedPreferences.getString(Constants.SWITCH_ALARMA_TEXT, ""));
             }
         });
     }
 
     private void showDialogPromtToCancelAlert() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setMessage("¿Desea cancelar la alarma?").
+        dialog.setMessage(getString(R.string.desactivar_alarma)).
                 setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         prefsEditor.putBoolean(Constants.ALARMA_ACTIVA, false);
                         prefsEditor.putBoolean(Constants.BTN_ENABLED, true);
-                        prefsEditor.putString(Constants.BTN_TXT_VALUE, "ENVIAR ALERTA");
+                        prefsEditor.putString(Constants.BTN_TXT_VALUE, Constants.ENVIAR_ALERTA);
+                        prefsEditor.putString(Constants.SWITCH_ALARMA_TEXT, Constants.ACTIVAR_ALARMA);
+                        prefsEditor.apply();
+                        switchAlarma.setText(sharedPreferences.getString(Constants.SWITCH_ALARMA_TEXT, ""));
                     }
                 }).
                 setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         prefsEditor.putBoolean(Constants.ALARMA_ACTIVA, true);
-                        prefsEditor.putBoolean(Constants.ALARMA_ACTIVA, true);
+                        prefsEditor.putBoolean(Constants.BTN_ENABLED, false);
+                        prefsEditor.putString(Constants.BTN_TXT_VALUE, Constants.ALERTA_ENVIADA);
+                        prefsEditor.putString(Constants.SWITCH_ALARMA_TEXT, Constants.DESACTIVAR_ALARMA);
+                        prefsEditor.apply();
+                        switchAlarma.setChecked(sharedPreferences.getBoolean(Constants.ALARMA_ACTIVA, true));
+                        switchAlarma.setText(sharedPreferences.getString(Constants.SWITCH_ALARMA_TEXT, ""));
                     }
                 });
         dialog.setCancelable(false);
