@@ -3,6 +3,8 @@ package com.example.appforthem.Clases;
 import android.content.Context;
 import android.widget.Toast;
 
+import static com.example.appforthem.Activities.LoginActivity.backendlessUser;
+
 public class BackendlessSettings {
     public static final String APPLICATION_ID = "2E3D890E-D735-D791-FF48-139CA7949A00";
     public static final String ANDROID_SECRET_KEY = "25C58567-048D-E15C-FF22-EF0A4C2ECB00";
@@ -14,4 +16,5 @@ public class BackendlessSettings {
     public static void showToast(Context context,String msg){
         Toast.makeText(context,msg,Toast.LENGTH_SHORT).show();
     }
+
 }

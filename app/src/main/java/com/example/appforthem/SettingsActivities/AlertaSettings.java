@@ -1,6 +1,7 @@
 package com.example.appforthem.SettingsActivities;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.example.appforthem.Clases.Constants;
+import com.example.appforthem.Clases.ServiceMap;
 import com.example.appforthem.R;
 
 import static com.example.appforthem.Activities.HomeActivity.prefsEditor;
@@ -46,12 +48,22 @@ public class AlertaSettings extends AppCompatActivity {
                 if (!isChecked) {  //DESACTIVAR ALARMA
                     showDialogPromtToCancelAlert();
                 } else {  // ACTIVAR ALARMA
+                    if (!sharedPreferences.getBoolean(Constants.ALARMA_ACTIVA, true)){
+                        startService(new Intent(getApplicationContext(), ServiceMap.class));
+                        prefsEditor.putBoolean(Constants.ALARMA_ACTIVA, true);
+                        prefsEditor.putBoolean(Constants.BTN_ENABLED, false);
+                        prefsEditor.putString(Constants.BTN_TXT_VALUE, "ALERTA ENVIADA");
+                        prefsEditor.putString(Constants.SWITCH_ALARMA_TEXT, Constants.DESACTIVAR_ALARMA);
+                        prefsEditor.apply();
+                        switchAlarma.setText(sharedPreferences.getString(Constants.SWITCH_ALARMA_TEXT, ""));
+                    }
+                  /*  startService(new Intent(getApplicationContext(), ServiceMap.class));
                     prefsEditor.putBoolean(Constants.ALARMA_ACTIVA, true);
                     prefsEditor.putBoolean(Constants.BTN_ENABLED, false);
                     prefsEditor.putString(Constants.BTN_TXT_VALUE, "ALERTA ENVIADA");
                     prefsEditor.putString(Constants.SWITCH_ALARMA_TEXT, Constants.DESACTIVAR_ALARMA);
                     prefsEditor.apply();
-                    switchAlarma.setText(sharedPreferences.getString(Constants.SWITCH_ALARMA_TEXT, ""));
+                    switchAlarma.setText(sharedPreferences.getString(Constants.SWITCH_ALARMA_TEXT, ""));*/
                 }
             }
         });
@@ -68,6 +80,7 @@ public class AlertaSettings extends AppCompatActivity {
                         prefsEditor.putString(Constants.BTN_TXT_VALUE, Constants.ENVIAR_ALERTA);
                         prefsEditor.putString(Constants.SWITCH_ALARMA_TEXT, Constants.ACTIVAR_ALARMA);
                         prefsEditor.apply();
+                        stopService(new Intent(getApplicationContext(), ServiceMap.class));
                         switchAlarma.setText(sharedPreferences.getString(Constants.SWITCH_ALARMA_TEXT, ""));
                     }
                 }).
