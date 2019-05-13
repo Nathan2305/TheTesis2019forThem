@@ -15,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.backendless.exceptions.BackendlessException;
 import com.example.appforthem.Clases.Constants;

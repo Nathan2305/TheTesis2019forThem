@@ -28,9 +28,12 @@
         <activity
             android:name=".Activities.CustomProgressBar"
             android:theme="@style/TranslucentActivity" />
-        <activity android:name=".Activities.Ajustes" />
+        <activity
+            android:name=".Activities.Ajustes"
+            android:theme="@style/transparentActionBar" />
         <activity
             android:name=".Activities.Protector"
+            android:label="@string/mis_protectores"
             android:theme="@style/transparentActionBar" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -50,6 +53,7 @@
         <activity android:name=".Activities.RegistrationActivity" />
         <activity
             android:name=".Activities.HomeActivity"
+            android:label="@string/mi_perfil"
             android:theme="@style/transparentActionBar" />
         <activity
             android:name=".Activities.LoginActivity"

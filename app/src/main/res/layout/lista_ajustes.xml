@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
     android:padding="10dp"
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 <LinearLayout
     android:gravity="center_vertical"
@@ -12,8 +13,8 @@
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="50dp"
-        android:layout_height="50dp" />
+        android:layout_width="45dp"
+        android:layout_height="45dp" />
     <TextView
         android:id="@+id/title"
         android:layout_margin="10dp"

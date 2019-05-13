@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_gravity="center"
     android:padding="10dp"
+    android:background="@drawable/background_login3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activities.Ajustes">
 
    <android.support.v7.widget.RecyclerView
        android:id="@+id/lista_ajustes"
+       android:layout_marginTop="@dimen/space_action_bar_view_vertical"
        android:layout_width="match_parent"
        android:layout_height="match_parent">
 

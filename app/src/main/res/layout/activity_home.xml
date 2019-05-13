@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:layout_marginTop="@dimen/space_action_bar_view_vertical"
         android:padding="10dp">
 
         <ImageView
@@ -20,7 +21,7 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/space_action_bar_view_vertical"
+
             android:scaleType="fitCenter"
             android:src="@drawable/woman_profile2" />
 
