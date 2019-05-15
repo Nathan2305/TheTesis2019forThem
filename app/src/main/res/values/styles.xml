@@ -85,6 +85,9 @@
 
     </style>
 
+    <style name="SwitchAlarma" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="colorControlActivated">@color/progressBar</item>
+    </style>
 
 </resources>
 

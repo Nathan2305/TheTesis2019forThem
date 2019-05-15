@@ -40,18 +40,19 @@ public class HomeActivity extends AppCompatActivity {
         btn_alerta = findViewById(R.id.alert);
         opciones = findViewById(R.id.opciones);
         datosUser = findViewById(R.id.datosUser);
-        String userData="";
+        String userData = "";
         if (!runtime_permissions()) {
             enable_buttons();
         }
+        try {
         if (backendlessUser == null) {
             backendlessUser = UserSessionManager.getBackendlessUser();
-            StringBuilder stringBuilder=new StringBuilder();
-            stringBuilder.append(backendlessUser.getProperty("name").toString()).
-                    append(" "+ backendlessUser.getProperty("last_name").toString());
-            userData=stringBuilder.toString();
         }
-        try {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(backendlessUser.getProperty("name").toString()).
+                append(" " + backendlessUser.getProperty("last_name").toString());
+        userData = stringBuilder.toString();
+
             datosUser.setText(userData);
         } catch (BackendlessException e) {
             System.out.println("Exception trying to get BackendlessUser - " + e.getMessage());

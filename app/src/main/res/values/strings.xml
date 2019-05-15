@@ -50,6 +50,8 @@
     <string name="desactivar_alarma">¿Desactivar Alarma?</string>
     <string name="mi_perfil">Mi Perfil</string>
     <string name="mis_protectores">Protectores</string>
+    <string name="alerta">Configurar Alertas</string>
+    <string name="ajustes">Ajustes</string>
 
 
 </resources>

@@ -24,12 +24,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SettingsActivities.AlertaSettings"></activity>
+        <activity android:name=".SettingsActivities.AlertaSettings"
+            android:theme="@style/transparentActionBar"
+            android:label="@string/alerta"></activity>
         <activity
             android:name=".Activities.CustomProgressBar"
             android:theme="@style/TranslucentActivity" />
         <activity
             android:name=".Activities.Ajustes"
+            android:label="@string/ajustes"
             android:theme="@style/transparentActionBar" />
         <activity
             android:name=".Activities.Protector"
