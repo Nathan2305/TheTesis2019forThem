@@ -8,6 +8,23 @@
     android:orientation="vertical"
     tools:context="com.example.appforthem.Activities.HomeActivity">
 
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/pbHome"
+        style="@style/SpinKitView.Small.MultiplePulseRing"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:fadeScrollbars="true"
+        android:backgroundTint="@color/translucent"
+        android:padding="10dp"
+        android:visibility="gone"
+        app:SpinKit_Color="@color/progressBar"
+        tools:ignore="MissingConstraints" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -61,6 +78,6 @@
             android:layout_marginBottom="5dp"
             android:text="ENVIAR ALERTA" />
     </LinearLayout>
-
+</FrameLayout>
 
 </android.support.constraint.ConstraintLayout>

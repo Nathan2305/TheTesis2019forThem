@@ -12,6 +12,6 @@
     <color name="colorTwitter">  #00acee</color>
     <color name="colorNaranja">#FF9800</color>
     <color name="translucent">#0000ffff</color>
-    <color name="progressBar">#52FFFF</color>
+    <color name="progressBar">#2DDF1E</color>
     <color name="disableView">#C2BFBF</color>
 </resources>
