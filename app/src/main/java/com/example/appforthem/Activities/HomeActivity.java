@@ -1,10 +1,7 @@
 package com.example.appforthem.Activities;
 
 import android.Manifest;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
@@ -22,14 +19,16 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.backendless.exceptions.BackendlessException;
+import com.example.appforthem.Clases.BackendlessSettings;
 import com.example.appforthem.Clases.Constants;
 import com.example.appforthem.Clases.CustomAdapterOptions;
 import com.example.appforthem.Clases.ServiceMap;
 import com.example.appforthem.Clases.UserSessionManager;
 import com.example.appforthem.R;
 import com.github.ybq.android.spinkit.style.MultiplePulseRing;
-import com.github.ybq.android.spinkit.style.RotatingPlane;
+
 import java.io.File;
 
 
@@ -44,18 +43,31 @@ public class HomeActivity extends AppCompatActivity {
     private GridView opciones;
     public static ProgressBar progressBar;
     private MultiplePulseRing multiplePulseRing;
-    private BroadcastReceiver broadcastReceiver;
+    public static String FOLDER_AUDIO = "";
+    private String sdCardState = "";
     public static LocationManager locationManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        sdCardState = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equalsIgnoreCase(sdCardState)) {
+            FOLDER_AUDIO = Environment.getExternalStorageDirectory().getAbsolutePath() + "/AppForThem/Audios";
+            File file = new File(FOLDER_AUDIO);
+            if (!file.exists()) {
+                if (file.mkdirs()) {  //crea directios incluyendo la carpeta padre
+                    BackendlessSettings.showToast(getApplicationContext(), "Se creó el directorio " + FOLDER_AUDIO);
+                } else {
+                    BackendlessSettings.showToast(getApplicationContext(), "No se creó el directorio " + FOLDER_AUDIO);
+                }
+            }
+        }
         multiplePulseRing = new MultiplePulseRing();
         progressBar = findViewById(R.id.pbHome);
         btn_alerta = findViewById(R.id.alert);
         opciones = findViewById(R.id.opciones);
         datosUser = findViewById(R.id.datosUser);
-
         if (!runtime_permissions()) {
             enable_buttons();
         }
@@ -68,7 +80,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (Constants.ENVIAR_ALERTA.equalsIgnoreCase(btn_alerta.getText().toString())) {
-                    if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                    if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                         sendAlert();
                         prefsEditor.putString(Constants.BTN_TXT_VALUE, Constants.ALERTA_ENVIADA);
                         prefsEditor.putBoolean(Constants.BTN_ENABLED, false);
@@ -76,53 +88,16 @@ public class HomeActivity extends AppCompatActivity {
                         prefsEditor.apply();
                         btn_alerta.setText(sharedPreferences.getString(Constants.BTN_TXT_VALUE, ""));
                         btn_alerta.setEnabled(sharedPreferences.getBoolean(Constants.BTN_ENABLED, true));
-                    }else{
+                    } else {
                         Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(i);
                     }
-                    //startAudioRecording();
-                    /*prefsEditor.putString(Constants.BTN_TXT_VALUE, Constants.ALERTA_ENVIADA);
-                    prefsEditor.putBoolean(Constants.BTN_ENABLED, false);
-                    prefsEditor.putBoolean(Constants.ALARMA_ACTIVA, true);
-                    prefsEditor.apply();
-                    btn_alerta.setText(sharedPreferences.getString(Constants.BTN_TXT_VALUE, ""));
-                    btn_alerta.setEnabled(sharedPreferences.getBoolean(Constants.BTN_ENABLED, true));*/
                 }
             }
         });
     }
 
-    private void startAudioRecording() {
-        /*MediaRecorder mediaRecorder=new MediaRecorder();
-        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_2_TS);
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);*/
-        File rootPath = new File(Environment.getExternalStorageDirectory(), "AppForThem");
-        try {
-            if (!rootPath.exists()) {
-                //do task...
-                rootPath.mkdir();
-            } else {
-               /* if (file.mkdirs()) {
-                    System.out.println("Directory created");
-                } else {
-                    System.out.println("Directory is not created");
-                }*/
-                System.out.println("YA EXISTE EL DIRECTORIO");
-            }
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        /*mediaRecorder.setOutputFile(dir.getPath());
-        try {
-            mediaRecorder.prepare();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -184,36 +159,13 @@ public class HomeActivity extends AppCompatActivity {
                 btn_alerta.setBackgroundColor(sharedPreferences.getInt("COLOR_BTN", 0));
             }
         }
-        /*if (broadcastReceiver==null){
-            broadcastReceiver=new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    String gpsStatus=intent.getStringExtra(Constants.GPS_ON);
-                    if (gpsStatus!=null && gpsStatus!=""){
-                       if ("on".equalsIgnoreCase(gpsStatus)){
-                           prefsEditor.putString(Constants.BTN_TXT_VALUE, Constants.ALERTA_ENVIADA);
-                           prefsEditor.putBoolean(Constants.BTN_ENABLED, false);
-                           prefsEditor.putBoolean(Constants.ALARMA_ACTIVA, true);
-                           prefsEditor.apply();
-                           btn_alerta.setText(sharedPreferences.getString(Constants.BTN_TXT_VALUE, ""));
-                           btn_alerta.setEnabled(sharedPreferences.getBoolean(Constants.BTN_ENABLED, true));
-                       }
-                    }
-                }
-            };
-        }
-        registerReceiver(broadcastReceiver,new IntentFilter(Constants.GPS_ON));*/
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        /*Intent intent = new Intent(HomeActivity.this, ServiceMap.class);
-        stopService(intent);*/
-        if (broadcastReceiver!=null){
-            unregisterReceiver(broadcastReceiver);
-        }
     }
+
     private void initData() {
         locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
         try {
@@ -230,6 +182,7 @@ public class HomeActivity extends AppCompatActivity {
         sharedPreferences = getApplicationContext().getSharedPreferences("HOME", MODE_PRIVATE);
         prefsEditor = sharedPreferences.edit();
     }
+
     private void makeGridView() {
         int images[] = new int[]{R.drawable.alerta, R.drawable.camera_icon, R.drawable.woman_profil3, R.drawable.woman_face2,
                 R.drawable.woman_profile2, R.drawable.settings};
