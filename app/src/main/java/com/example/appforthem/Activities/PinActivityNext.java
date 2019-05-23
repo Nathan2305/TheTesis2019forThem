@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -61,14 +62,18 @@ public class PinActivityNext extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Integer editText1Length = key1.getText().toString().length();
+                /*Integer editText1Length = key1.getText().toString().length();
                 if (editText1Length > 0) {
                     key2.requestFocus();
-                }
+                }*/
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+                Integer editText1Length = key1.getText().toString().length();
+                if (editText1Length > 0) {
+                    key2.requestFocus();
+                }
                 checkPIN(key1, key2, key3, key4);
             }
         });
@@ -79,14 +84,18 @@ public class PinActivityNext extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Integer editText1Length = key2.getText().toString().length();
+                /*Integer editText1Length = key2.getText().toString().length();
                 if (editText1Length > 0) {
                     key3.requestFocus();
-                }
+                }*/
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+                Integer editText1Length = key2.getText().toString().length();
+                if (editText1Length > 0) {
+                    key3.requestFocus();
+                }
                 checkPIN(key1, key2, key3, key4);
             }
         });
@@ -97,14 +106,18 @@ public class PinActivityNext extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Integer editText1Length = key3.getText().toString().length();
+                /*Integer editText1Length = key3.getText().toString().length();
                 if (editText1Length > 0) {
                     key4.requestFocus();
-                }
+                }*/
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+                Integer editText1Length = key3.getText().toString().length();
+                if (editText1Length > 0) {
+                    key4.requestFocus();
+                }
                 checkPIN(key1, key2, key3, key4);
             }
         });

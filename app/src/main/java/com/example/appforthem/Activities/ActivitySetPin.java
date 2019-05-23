@@ -51,33 +51,30 @@ public class ActivitySetPin extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Integer editText1Length = key1.getText().toString().length();
-                if (editText1Length > 0) {
-                    key2.requestFocus();
-                }
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                Integer editText1Length = key1.getText().toString().length();
+                if (editText1Length > 0) {
+                    key2.requestFocus();
+                }
             }
         });
         key2.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+               }
+            @Override
+            public void afterTextChanged(Editable s) {
                 Integer editText1Length = key2.getText().toString().length();
                 if (editText1Length > 0) {
                     key3.requestFocus();
                 }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
             }
         });
         key3.addTextChangedListener(new TextWatcher() {
@@ -87,14 +84,15 @@ public class ActivitySetPin extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Integer editText1Length = key3.getText().toString().length();
-                if (editText1Length > 0) {
-                    key4.requestFocus();
-                }
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+                Integer editText1Length = key3.getText().toString().length();
+                if (editText1Length > 0) {
+                    key4.requestFocus();
+                }
             }
         });
         key4.addTextChangedListener(new TextWatcher() {

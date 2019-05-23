@@ -58,12 +58,10 @@ public class LoginActivity extends AppCompatActivity {
         passwordField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     CharSequence email = emailField.getText();
                     CharSequence password = passwordField.getText();
                     if (isLoginValuesValid(email, password)) {
-
                         LoadingCallback<BackendlessUser> loginCallback = createLoginCallback(progressBar);
                         loginCallback.showLoading();
                         loginUser(email.toString(), password.toString(), loginCallback);
@@ -74,7 +72,6 @@ public class LoginActivity extends AppCompatActivity {
                     return true;
                 }
                 return false;
-
             }
         });
     }

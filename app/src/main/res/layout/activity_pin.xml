@@ -32,28 +32,32 @@
                 style="@style/pingAcess"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_margin="5dp" />
+                android:layout_margin="5dp"
+                android:inputType="numberPassword" />
 
             <EditText
                 android:id="@+id/key2"
                 style="@style/pingAcess"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_margin="5dp" />
+                android:layout_margin="5dp"
+                android:inputType="numberPassword" />
 
             <EditText
                 android:id="@+id/key3"
                 style="@style/pingAcess"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_margin="5dp" />
+                android:layout_margin="5dp"
+                android:inputType="numberPassword" />
 
             <EditText
                 android:id="@+id/key4"
                 style="@style/pingAcess"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_margin="5dp" />
+                android:layout_margin="5dp"
+                android:inputType="numberPassword" />
 
         </LinearLayout>
 
