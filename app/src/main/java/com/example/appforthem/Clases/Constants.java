@@ -1,6 +1,8 @@
 package com.example.appforthem.Clases;
 
 public class Constants {
+    public static final String SET_PIN ="SET_PIN" ;
+    public static final String PIN_ENABLED ="PIN_ENABLED" ;
     public static String ALARMA_ACTIVA="ALARMA_ACTIVA";
     public static String ENVIAR_ALERTA="ENVIAR ALERTA";
     public static String ALERTA_ENVIADA="ALERTA ENVIADA";

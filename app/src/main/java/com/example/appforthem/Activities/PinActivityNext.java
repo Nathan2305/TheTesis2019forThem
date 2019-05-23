@@ -1,35 +1,34 @@
 package com.example.appforthem.Activities;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.appforthem.Clases.Constants;
 import com.example.appforthem.R;
-import com.example.appforthem.SettingsActivities.AlertaSettings;
 
-public class PinActivity extends AppCompatActivity {
-    private boolean k1;
-    private boolean k2;
-    private boolean k3;
-    private boolean k4;
+import static com.example.appforthem.Activities.HomeActivity.sharedPreferences;
+
+
+public class PinActivityNext extends AppCompatActivity {
+
     private EditText key1;
     private EditText key2;
     private EditText key3;
     private EditText key4;
     private TextView cancel;
-    public static String pinFrom="";
+    String firstKey = "";
+    String secondKey = "";
+    String thirdKey = "";
+    String lastKey = "";
+    public static String pinFrom = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +39,13 @@ public class PinActivity extends AppCompatActivity {
         key3 = findViewById(R.id.key3);
         key4 = findViewById(R.id.key4);
         cancel = findViewById(R.id.cancel);
-        pinFrom=PinActivity.class.getSimpleName();
+        String passPIN = sharedPreferences.getString(Constants.SET_PIN, "");
+        int lengthPIN = passPIN.length();
+        firstKey = passPIN.substring(0, 1);
+        secondKey = passPIN.substring(1, 2);
+        thirdKey = passPIN.substring(2, 3);
+        lastKey = passPIN.substring(lengthPIN - 1);
+        pinFrom = PinActivityNext.class.getSimpleName();
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,17 +69,7 @@ public class PinActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                k1 = false;
-                if ("1".equalsIgnoreCase(key1.getText().toString())) {
-                    k1 = true;
-                }
-                if (k1 && k2 && k3 && k4) {
-                    key1.setEnabled(false);
-                    key2.setEnabled(false);
-                    key3.setEnabled(false);
-                    key4.setEnabled(false);
-                    startActivity(new Intent(getApplicationContext(), Ajustes.class));
-                }
+                checkPIN(key1, key2, key3, key4);
             }
         });
         key2.addTextChangedListener(new TextWatcher() {
@@ -92,17 +87,7 @@ public class PinActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                k2 = false;
-                if ("2".equalsIgnoreCase(key2.getText().toString())) {
-                    k2 = true;
-                }
-                if (k1 && k2 && k3 && k4) {
-                    key1.setEnabled(false);
-                    key2.setEnabled(false);
-                    key3.setEnabled(false);
-                    key4.setEnabled(false);
-                    startActivity(new Intent(getApplicationContext(), Ajustes.class));
-                }
+                checkPIN(key1, key2, key3, key4);
             }
         });
         key3.addTextChangedListener(new TextWatcher() {
@@ -120,17 +105,7 @@ public class PinActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                k3 = false;
-                if ("3".equalsIgnoreCase(key3.getText().toString())) {
-                    k3 = true;
-                }
-                if (k1 && k2 && k3 && k4) {
-                    key1.setEnabled(false);
-                    key2.setEnabled(false);
-                    key3.setEnabled(false);
-                    key4.setEnabled(false);
-                    startActivity(new Intent(getApplicationContext(), Ajustes.class));
-                }
+                checkPIN(key1, key2, key3, key4);
             }
         });
         key4.addTextChangedListener(new TextWatcher() {
@@ -144,17 +119,7 @@ public class PinActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                k4 = false;
-                if ("4".equalsIgnoreCase(key4.getText().toString())) {
-                    k4 = true;
-                }
-                if (k1 && k2 && k3 && k4) {
-                    key1.setEnabled(false);
-                    key2.setEnabled(false);
-                    key3.setEnabled(false);
-                    key4.setEnabled(false);
-                    startActivity(new Intent(getApplicationContext(), Ajustes.class));
-                }
+                checkPIN(key1, key2, key3, key4);
             }
         });
     }
@@ -162,8 +127,25 @@ public class PinActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (Ajustes.class.getSimpleName().equalsIgnoreCase(pinFrom)){
+        if (Ajustes.class.getSimpleName().equalsIgnoreCase(pinFrom)) {
             finish();
+        }
+    }
+
+    public void checkPIN(EditText key1, EditText key2, EditText key3, EditText key4) {
+        String k1 = key1.getText().toString();
+        String k2 = key2.getText().toString();
+        String k3 = key3.getText().toString();
+        String k4 = key4.getText().toString();
+        if (k1.equalsIgnoreCase(firstKey)
+                && k2.equalsIgnoreCase(secondKey)
+                && k3.equalsIgnoreCase(thirdKey)
+                && k4.equalsIgnoreCase(lastKey)) {
+            key1.setEnabled(false);
+            key2.setEnabled(false);
+            key3.setEnabled(false);
+            key4.setEnabled(false);
+            startActivity(new Intent(getApplicationContext(), Ajustes.class));
         }
     }
 }

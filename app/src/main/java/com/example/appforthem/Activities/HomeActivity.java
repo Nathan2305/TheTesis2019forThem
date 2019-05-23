@@ -197,8 +197,15 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(), Protector.class));
                         break;
                     case 5:
-                        //startActivity(new Intent(getApplicationContext(), Ajustes.class));
-                        startActivity(new Intent(getApplicationContext(), PinActivity.class));
+                        if (sharedPreferences.contains(Constants.PIN_ENABLED)) {
+                            if (!sharedPreferences.getBoolean(Constants.PIN_ENABLED, true)) {
+                                startActivity(new Intent(getApplicationContext(), ActivitySetPin.class));
+                            } else {
+                                startActivity(new Intent(getApplicationContext(), PinActivityNext.class));
+                            }
+                        } else {
+                            startActivity(new Intent(getApplicationContext(), ActivitySetPin.class));
+                        }
                         break;
                 }
             }

@@ -1,29 +1,19 @@
 package com.example.appforthem.SettingsActivities;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.Switch;
-import android.widget.Toast;
 
-import com.example.appforthem.Activities.Ajustes;
 import com.example.appforthem.Clases.Constants;
 import com.example.appforthem.Clases.ServiceMap;
 import com.example.appforthem.R;
 
 import static com.example.appforthem.Activities.HomeActivity.prefsEditor;
 import static com.example.appforthem.Activities.HomeActivity.sharedPreferences;
-import static com.example.appforthem.Activities.PinActivity.pinFrom;
 
 public class AlertaSettings extends AppCompatActivity {
     private Switch switchAlarma;

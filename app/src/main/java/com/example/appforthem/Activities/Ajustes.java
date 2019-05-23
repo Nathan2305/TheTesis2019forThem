@@ -4,7 +4,6 @@ package com.example.appforthem.Activities;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,18 +12,22 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.appforthem.Clases.AdapterForAjustes;
 import com.example.appforthem.Clases.Ajuste;
+import com.example.appforthem.Clases.BackendlessSettings;
+import com.example.appforthem.Clases.Constants;
 import com.example.appforthem.R;
 import com.example.appforthem.SettingsActivities.AlertaSettings;
+import com.varunest.sparkbutton.helpers.Utils;
 
-import static com.example.appforthem.Activities.PinActivity.pinFrom;
+import static com.example.appforthem.Activities.HomeActivity.sharedPreferences;
+import static com.example.appforthem.Activities.PinActivityNext.pinFrom;
 
 
 public class Ajustes extends AppCompatActivity {
@@ -37,7 +40,7 @@ public class Ajustes extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ajustes);
-        pinFrom= Ajustes.class.getSimpleName();
+        pinFrom = Ajustes.class.getSimpleName();
         listaAjustes = findViewById(R.id.lista_ajustes);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         AdapterForAjustes adapterForAjustes = new AdapterForAjustes(getApplicationContext());
@@ -51,6 +54,9 @@ public class Ajustes extends AppCompatActivity {
                     case 0:
                         startActivity(new Intent(getApplicationContext(), AlertaSettings.class));
                         break;
+                    case 2:
+                        startActivity(new Intent(getApplicationContext(), ActivitySetPin.class));
+                        break;
                 }
             }
 
@@ -61,6 +67,8 @@ public class Ajustes extends AppCompatActivity {
         });
 
     }
+
+
 
 
 }
