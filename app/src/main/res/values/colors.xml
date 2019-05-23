@@ -14,4 +14,5 @@
     <color name="translucent">#0000ffff</color>
     <color name="progressBar">#2DDF1E</color>
     <color name="disableView">#C2BFBF</color>
+    <color name="black">#000000</color>
 </resources>

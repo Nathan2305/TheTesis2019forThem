@@ -16,7 +16,7 @@
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:allowBackup="true"
@@ -25,9 +25,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SettingsActivities.AlertaSettings"
-            android:theme="@style/transparentActionBar"
-            android:label="@string/alerta"></activity>
+        <activity android:name=".Activities.PinActivity"
+            android:theme="@style/TranslucentActivity"></activity>
+        <activity
+            android:name=".SettingsActivities.AlertaSettings"
+            android:label="@string/alerta"
+            android:theme="@style/transparentActionBar" />
         <activity
             android:name=".Activities.CustomProgressBar"
             android:theme="@style/TranslucentActivity" />

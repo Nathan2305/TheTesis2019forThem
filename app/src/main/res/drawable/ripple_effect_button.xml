@@ -2,6 +2,6 @@
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
     android:color="@color/colorbuttonLogin">
     <item
-        android:drawable="@drawable/circle_button_alert">
+        android:drawable="@drawable/pin_edit_text">
     </item>
 </ripple>

@@ -1,19 +1,29 @@
 package com.example.appforthem.SettingsActivities;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.Toast;
 
+import com.example.appforthem.Activities.Ajustes;
 import com.example.appforthem.Clases.Constants;
 import com.example.appforthem.Clases.ServiceMap;
 import com.example.appforthem.R;
 
 import static com.example.appforthem.Activities.HomeActivity.prefsEditor;
 import static com.example.appforthem.Activities.HomeActivity.sharedPreferences;
+import static com.example.appforthem.Activities.PinActivity.pinFrom;
 
 public class AlertaSettings extends AppCompatActivity {
     private Switch switchAlarma;
@@ -23,7 +33,6 @@ public class AlertaSettings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alerta_settings);
         switchAlarma = findViewById(R.id.switch_alerta);
-
         if (sharedPreferences != null) {
             if (sharedPreferences.contains(Constants.BTN_ENABLED)) {
                 prefsEditor = sharedPreferences.edit();
@@ -48,7 +57,7 @@ public class AlertaSettings extends AppCompatActivity {
                 if (!isChecked) {  //DESACTIVAR ALARMA
                     showDialogPromtToCancelAlert();
                 } else {  // ACTIVAR ALARMA
-                    if (!sharedPreferences.getBoolean(Constants.ALARMA_ACTIVA, true)){
+                    if (!sharedPreferences.getBoolean(Constants.ALARMA_ACTIVA, true)) {
                         startService(new Intent(getApplicationContext(), ServiceMap.class));
                         prefsEditor.putBoolean(Constants.ALARMA_ACTIVA, true);
                         prefsEditor.putBoolean(Constants.BTN_ENABLED, false);

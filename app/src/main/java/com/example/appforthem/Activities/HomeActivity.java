@@ -197,10 +197,12 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(), Protector.class));
                         break;
                     case 5:
-                        startActivity(new Intent(getApplicationContext(), Ajustes.class));
+                        //startActivity(new Intent(getApplicationContext(), Ajustes.class));
+                        startActivity(new Intent(getApplicationContext(), PinActivity.class));
                         break;
                 }
             }
         });
     }
 }
+
