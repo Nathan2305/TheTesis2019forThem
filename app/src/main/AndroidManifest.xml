@@ -25,9 +25,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.ActivitySetPin"
+        <activity android:name=".Activities.PatternLockActivity"></activity>
+        <activity
+            android:name=".Activities.ActivitySetPin"
             android:label="Configurar Pin"
-            android:theme="@style/transparentActionBar"></activity>
+            android:theme="@style/transparentActionBar" />
         <activity
             android:name=".Activities.PinActivityNext"
             android:theme="@style/TranslucentActivity" />

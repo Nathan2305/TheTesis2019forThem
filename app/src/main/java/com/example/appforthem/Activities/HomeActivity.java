@@ -196,6 +196,9 @@ public class HomeActivity extends AppCompatActivity {
                     case 0:
                         startActivity(new Intent(getApplicationContext(), Protector.class));
                         break;
+                    case 1:
+                        startActivity(new Intent(getApplicationContext(),PatternLockActivity.class));
+                        break;
                     case 5:
                         if (sharedPreferences.contains(Constants.PIN_ENABLED)) {
                             if (!sharedPreferences.getBoolean(Constants.PIN_ENABLED, true)) {

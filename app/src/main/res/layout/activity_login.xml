@@ -14,7 +14,8 @@
         android:layout_height="match_parent">
 
 
-        <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
+        <com.github.ybq.android.spinkit.SpinKitView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/pbarLogin"
             style="@style/SpinKitView.MultiplePulseRing"
             android:layout_width="71dp"
