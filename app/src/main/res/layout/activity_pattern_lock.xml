@@ -16,7 +16,6 @@
         android:id="@+id/fotoUser"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:src="@drawable/miluzka"
         tools:ignore="MissingConstraints" />
 
     <com.andrognito.patternlockview.PatternLockView

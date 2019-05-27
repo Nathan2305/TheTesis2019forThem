@@ -51,11 +51,11 @@ public class LoginActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.pbarLogin);
         constraintLayout = findViewById(R.id.parent);
         makeRegistrationLink();
-        emailField = findViewById(R.id.mail);
-        passwordField = findViewById(R.id.clave);
-        loginButton = findViewById(R.id.login);
+      emailField = findViewById(R.id.mail);
+      passwordField = findViewById(R.id.clave);
+       loginButton = findViewById(R.id.login);
         loginButton.setOnClickListener(createLoginButtonListener());
-        passwordField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+       passwordField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
         int linkEndIndex = linkStartIndex + linkText.length();
         registrationPrompt.setSpan(clickableSpan, linkStartIndex, linkEndIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        TextView registerPromptView = findViewById(R.id.registerPromptText);
+       TextView registerPromptView = findViewById(R.id.registerPromptText);
         registerPromptView.setText(registrationPrompt);
         registerPromptView.setMovementMethod(LinkMovementMethod.getInstance());
     }
@@ -100,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText emailField = findViewById(R.id.mail);
+               EditText emailField = findViewById(R.id.mail);
                 EditText passwordField = findViewById(R.id.clave);
 
                 CharSequence email = emailField.getText();
