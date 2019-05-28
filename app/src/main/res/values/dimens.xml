@@ -6,6 +6,7 @@
     <dimen name="view_horizontal_margin">8dp</dimen>
     <dimen name="view_vertical_margin">8dp</dimen>
     <dimen name="space_action_bar_view_vertical">45dp</dimen>
+    <dimen name="sheet_opcion">35dp</dimen>
 
     <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
          https://developer.android.com/design/patterns/navigation-drawer.html -->

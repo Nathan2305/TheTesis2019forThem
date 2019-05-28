@@ -72,7 +72,7 @@ public class AdapterForAjustes extends RecyclerView.Adapter<AdapterForAjustes.Vi
         listaAjustes = new ArrayList<>();
         listaAjustes.add(new Ajuste("Alerta", R.drawable.campana));
         listaAjustes.add(new Ajuste("Contactos", R.drawable.map_icon));
-        listaAjustes.add(new Ajuste("Pin de acceso", R.drawable.passcode));
+        listaAjustes.add(new Ajuste("Seguridad", R.drawable.passcode));
     }
 
     public interface OnItemClickListener {

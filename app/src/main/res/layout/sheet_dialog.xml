@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/textSheetOption"
+            android:textStyle="bold|italic"
+           tools:ignore="MissingConstraints" />
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_marginTop="10dp"
+            android:id="@+id/recyler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints">
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
+
+
+
+    <!-- <LinearLayout
+         android:layout_marginTop="15dp"
+         android:id="@+id/first"
+         app:layout_constraintTop_toBottomOf="@id/msg"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:gravity="center_vertical"
+         android:orientation="horizontal"
+         tools:ignore="MissingConstraints">
+
+         <ImageView
+             android:layout_width="@dimen/sheet_opcion"
+             android:layout_height="@dimen/sheet_opcion"
+             android:src="@drawable/campana" />
+
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="@string/pin" />
+     </LinearLayout>
+
+     <LinearLayout
+         android:id="@+id/second"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="15dp"
+         android:gravity="center_vertical"
+         android:orientation="horizontal"
+         app:layout_constraintTop_toBottomOf="@id/first"
+         tools:ignore="MissingConstraints">
+
+         <ImageView
+             android:layout_width="@dimen/sheet_opcion"
+             android:layout_height="@dimen/sheet_opcion"
+             android:src="@drawable/password_icon" />
+
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="@string/clave"/>
+     </LinearLayout>
+
+     <LinearLayout
+         android:id="@+id/third"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="15dp"
+         android:gravity="center_vertical"
+         android:orientation="horizontal"
+         app:layout_constraintTop_toBottomOf="@id/second"
+         tools:ignore="MissingConstraints">
+
+         <ImageView
+             android:layout_width="@dimen/sheet_opcion"
+             android:layout_height="@dimen/sheet_opcion"
+             android:src="@drawable/patron_icon" />
+
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="@string/patron" />
+     </LinearLayout>-->
+
+</android.support.constraint.ConstraintLayout>

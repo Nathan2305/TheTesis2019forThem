@@ -52,6 +52,10 @@
     <string name="mis_protectores">Protectores</string>
     <string name="alerta">Configurar Alertas</string>
     <string name="ajustes">Ajustes</string>
+    <string name="textSheetOption">Elige una opción</string>
+    <string name="pin">Pin</string>
+    <string name="clave">Contraseña</string>
+    <string name="patron">Patron</string>
 
 
 </resources>

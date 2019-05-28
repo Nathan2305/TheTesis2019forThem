@@ -11,7 +11,9 @@ public class Constants {
     public static String ACTIVAR_ALARMA="Activar Alarma";
     public static String DESACTIVAR_ALARMA="Desactivar Alarma";
     public static String SWITCH_ALARMA_TEXT="SWITCH_ALARMA_TEXT";
-    public static String GPS_ON="GPS_ON";
+    public static String PATRON="PATRON";
+    public static String PIN="PIN";
+    public static String CLAVE="CLAVE";
 
 
 
