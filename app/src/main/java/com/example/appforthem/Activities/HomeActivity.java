@@ -184,9 +184,9 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void makeGridView() {
-        int images[] = new int[]{R.drawable.alerta, R.drawable.camera_icon, R.drawable.woman_profil3, R.drawable.woman_face2,
+        int images[] = new int[]{R.drawable.alerta, R.drawable.agresor, R.drawable.woman_profil3, R.drawable.woman_face2,
                 R.drawable.woman_profile2, R.drawable.settings};
-        String titulo[] = new String[]{"Protector", "Opcion 2", "Opcion 3", "Opcion 4", "Opcion 5", "Ajustes"};
+        String titulo[] = new String[]{"Protector", "Agresores", "Opcion 3", "Opcion 4", "Opcion 5", "Ajustes"};
         CustomAdapterOptions adapterOptions = new CustomAdapterOptions(getApplicationContext(), images, titulo);
         opciones.setAdapter(adapterOptions);
         opciones.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -197,7 +197,7 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(), Protector.class));
                         break;
                     case 1:
-                        startActivity(new Intent(getApplicationContext(),PatternLockActivity.class));
+                        startActivity(new Intent(getApplicationContext(),ListaAgresoresActivity.class));
                         break;
                     case 5:
                         if (sharedPreferences.contains(Constants.PIN_ENABLED)) {

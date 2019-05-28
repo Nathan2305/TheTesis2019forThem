@@ -13,11 +13,16 @@ import com.backendless.messaging.MessageStatus;
 import com.example.appforthem.Activities.HomeActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import static com.example.appforthem.Activities.LoginActivity.backendlessUser;
 
 public class BackendlessGeoUtils {
+    List<Agresor> lista = null;
+
+    public BackendlessGeoUtils() {
+    }
 
     public static void saveGeo(double lat, double longi, ArrayList<String> categoria, Map<String, Object> meta) {
         Backendless.Geo.savePoint(lat, longi, categoria, meta, new AsyncCallback<GeoPoint>() {
@@ -49,5 +54,19 @@ public class BackendlessGeoUtils {
         }
     }
 
+    public List<Agresor> getAgresores() {
+        Backendless.Data.of(Agresor.class).find(new AsyncCallback<List<Agresor>>() {
+            @Override
+            public void handleResponse(List<Agresor> response) {
+                if (response.size() > 0) {
+                    lista = response;
+                }
+            }
+            @Override
+            public void handleFault(BackendlessFault fault) {
 
+            }
+        });
+        return lista;
+    }
 }
