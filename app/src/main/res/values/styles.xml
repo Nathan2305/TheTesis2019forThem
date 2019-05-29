@@ -15,6 +15,14 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="button_ver_agresion" parent="Widget.AppCompat.Button">
+        <item name="android:textSize">19sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/rounded_btn_agresion</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:layout_margin">10dp</item>
+    </style>
+
     <style name="Button_set_pin" parent="Widget.AppCompat.Button">
         <item name="android:textSize">19sp</item>
         <item name="android:textColor">@color/white</item>

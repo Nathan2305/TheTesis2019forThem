@@ -19,7 +19,7 @@
         <TextView
             android:layout_gravity="center"
             android:textColor="@color/colorbuttonLogin"
-            android:textSize="18dp"
+            android:textSize="17sp"
             android:textStyle="bold"
             android:layout_marginTop="10dp"
             android:id="@+id/textOpcion"

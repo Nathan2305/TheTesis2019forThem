@@ -10,7 +10,22 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/agresores"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
-    </android.support.v7.widget.RecyclerView>
+    <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/pbAgresores"
+        style="@style/SpinKitView.FadingCircle"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:backgroundTint="@color/translucent"
+        android:fadeScrollbars="true"
+        android:padding="10dp"
+        android:visibility="gone"
+        app:SpinKit_Color="@color/progressBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 </android.support.constraint.ConstraintLayout>
