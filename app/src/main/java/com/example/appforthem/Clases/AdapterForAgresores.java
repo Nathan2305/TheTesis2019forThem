@@ -41,7 +41,8 @@ public class AdapterForAgresores extends RecyclerView.Adapter<AdapterForAgresore
 
     @Override
     public void onBindViewHolder(@NonNull AdapterForAgresores.ViewHolder viewHolder, int i) {
-        Picasso.get().load(agresorList.get(i).getPhoto_agresor()).transform(new CircleTransform()).into(viewHolder.imageView);
+        //Picasso.get().load(agresorList.get(i).getPhoto_agresor()).transform(new CircleTransform()).into(viewHolder.imageView);
+        Picasso.get().load(agresorList.get(i).getPhoto_agresor()).into(viewHolder.imageView);
         viewHolder.textView.setText(agresorList.get(i).getName_agresor());
     }
 
