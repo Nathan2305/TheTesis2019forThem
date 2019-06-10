@@ -177,16 +177,16 @@ public class HomeActivity extends AppCompatActivity {
                     append(" " + backendlessUser.getProperty("last_name").toString());
             datosUser.setText(stringBuilder.toString());
         } catch (BackendlessException e) {
-            System.out.println("Exception trying to get BackendlessUser - " + e.getMessage());
+            BackendlessSettings.showToast(this,"Exception trying to get BackendlessUser - " + e.getMessage());
         }
         sharedPreferences = getApplicationContext().getSharedPreferences("HOME", MODE_PRIVATE);
         prefsEditor = sharedPreferences.edit();
     }
 
     private void makeGridView() {
-        int images[] = new int[]{R.drawable.alerta, R.drawable.agresor, R.drawable.woman_profil3, R.drawable.woman_face2,
+        int images[] = new int[]{R.drawable.alerta, R.drawable.agresor, R.drawable.map_icon, R.drawable.audio_icon,
                 R.drawable.woman_profile2, R.drawable.settings};
-        String titulo[] = new String[]{"Protector", "Agresores", "Opcion 3", "Opcion 4", "Opcion 5", "Ajustes"};
+        String titulo[] = new String[]{"Protector", "Agresores", "Ubicación", "Audios", "Opcion 5", "Ajustes"};
         CustomAdapterOptions adapterOptions = new CustomAdapterOptions(getApplicationContext(), images, titulo);
         opciones.setAdapter(adapterOptions);
         opciones.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -197,10 +197,17 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(), Protector.class));
                         break;
                     case 1:
-                        startActivity(new Intent(getApplicationContext(),ListaAgresoresActivity.class));
+                        startActivity(new Intent(getApplicationContext(), ListaAgresoresActivity.class));
+                        break;
+                    case 2:
+                        startActivity(new Intent(getApplicationContext(), MapsActivity.class));
+                        break;
+                    case 3:
+                        startActivity(new Intent(getApplicationContext(), AudioActivity.class));
                         break;
                     case 5:
-                        if (sharedPreferences.contains(Constants.PIN_ENABLED)) {
+                        startActivity(new Intent(getApplicationContext(), Ajustes.class));
+                        /*if (sharedPreferences.contains(Constants.PIN_ENABLED)) {
                             if (!sharedPreferences.getBoolean(Constants.PIN_ENABLED, true)) {
                                 startActivity(new Intent(getApplicationContext(), ActivitySetPin.class));
                             } else {
@@ -208,7 +215,7 @@ public class HomeActivity extends AppCompatActivity {
                             }
                         } else {
                             startActivity(new Intent(getApplicationContext(), ActivitySetPin.class));
-                        }
+                        }*/
                         break;
                 }
             }

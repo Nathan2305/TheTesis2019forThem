@@ -82,7 +82,7 @@ public class ServiceMap extends Service {
 
             @Override
             public void onProviderDisabled(String s) {
-                System.out.println("onProviderDisabled()");
+               BackendlessSettings.showToast(getApplicationContext(),"GPS Desactivado!!");
                 Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
@@ -127,7 +127,7 @@ public class ServiceMap extends Service {
     }
 
     public void sendToChannel(String channelName, double lat, double lon) {
-        BackendlessGeoUtils.sendtoChannel(channelName, lat, lon);
+        BackendlessGeoUtils.sendtoChannel(this,channelName, lat, lon);
     }
 
     @Override

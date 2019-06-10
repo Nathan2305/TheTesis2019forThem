@@ -10,12 +10,11 @@
     tools:context=".Activities.LoginActivity">
 
 
-    <com.github.ybq.android.spinkit.SpinKitView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/pbarLogin"
         style="@style/SpinKitView.MultiplePulseRing"
-        android:layout_width="400dp"
-        android:layout_height="400dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_gravity="center"
         android:backgroundTint="@color/translucent"
         android:fadeScrollbars="true"
@@ -59,13 +58,13 @@
 
     <EditText
         android:id="@+id/mail"
+        style="@style/mail_passLogin"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:hint="Email"
-        android:padding="7dp"
-        style="@style/mail_passLogin"
         android:imeOptions="actionNext"
         android:inputType="textEmailAddress"
+        android:padding="7dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,13 +74,13 @@
     <!--style="@style/mail_passLogin"-->
     <EditText
         android:id="@+id/clave"
+        style="@style/mail_passLogin"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:hint="Contraseña"
-        style="@style/mail_passLogin"
-        android:padding="7dp"
         android:imeOptions="actionDone"
         android:inputType="textPassword"
+        android:padding="7dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -125,11 +124,11 @@
         android:text="¿Olvidaste tu contraseña?"
         android:textColor="@color/white"
         android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerPromptText"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="10dp" />
+        app:layout_constraintTop_toBottomOf="@+id/login"
+        tools:ignore="MissingConstraints" />
 
 </android.support.constraint.ConstraintLayout>
