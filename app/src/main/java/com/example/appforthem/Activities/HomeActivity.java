@@ -8,6 +8,8 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,6 +32,8 @@ import com.example.appforthem.R;
 import com.github.ybq.android.spinkit.style.MultiplePulseRing;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 
 import static com.example.appforthem.Activities.LoginActivity.backendlessUser;
@@ -45,37 +49,69 @@ public class HomeActivity extends AppCompatActivity {
     private MultiplePulseRing multiplePulseRing;
     public static String FOLDER_AUDIO = "";
     private String sdCardState = "";
+    public static int REQUEST_WRITE_STORAGE = 1;
+    public static int REQUEST_GPS_PERMISSION = 2;
+
     public static LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        sdCardState = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equalsIgnoreCase(sdCardState)) {
-            FOLDER_AUDIO = Environment.getExternalStorageDirectory().getAbsolutePath() + "/AppForThem/Audios";
-            File file = new File(FOLDER_AUDIO);
-            if (!file.exists()) {
-                if (file.mkdirs()) {  //crea directios incluyendo la carpeta padre
-                    BackendlessSettings.showToast(getApplicationContext(), "Se creó el directorio " + FOLDER_AUDIO);
-                } else {
-                    BackendlessSettings.showToast(getApplicationContext(), "No se creó el directorio " + FOLDER_AUDIO);
-                }
-            }
-        }
+        createFolderforAudio();
         multiplePulseRing = new MultiplePulseRing();
         progressBar = findViewById(R.id.pbHome);
         btn_alerta = findViewById(R.id.alert);
         opciones = findViewById(R.id.opciones);
         datosUser = findViewById(R.id.datosUser);
-        if (!runtime_permissions()) {
-            enable_buttons();
-        }
+        requestGPSPermission();
         initData();
         makeGridView();
     }
 
+    private void requestGPSPermission() {
+        if (Build.VERSION.SDK_INT >= 23 &&
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_GPS_PERMISSION);
+        } else {
+            enable_buttons();
+        }
+    }
+
+    private void createFolderforAudio() {
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestWriteExternal();
+        } else {
+            sdCardState = Environment.getExternalStorageState();
+            if (Environment.MEDIA_MOUNTED.equalsIgnoreCase(sdCardState)) {
+                FOLDER_AUDIO = Environment.getExternalStorageDirectory().getAbsolutePath() + "/AppForThem/Audios";
+                File file = new File(FOLDER_AUDIO);
+                if (!file.exists()) {
+                    try {
+                        if (file.mkdirs()) {  //crea directios incluyendo la carpeta padre
+                            BackendlessSettings.showToast(getApplicationContext(), "Se creó el directorio " + FOLDER_AUDIO);
+                        } else {
+                            BackendlessSettings.showToast(getApplicationContext(), "No se creó el directorio " + FOLDER_AUDIO);
+                        }
+                    } catch (SecurityException e) {
+                        System.out.println("Excepcion reading File " + e.getMessage());
+                    }
+                }
+            }
+        }
+    }
+
+    private void requestWriteExternal() {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE);
+    }
+
+
     private void enable_buttons() {
+        locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
         btn_alerta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,24 +157,21 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-    private boolean runtime_permissions() {
-        if (Build.VERSION.SDK_INT >= 23 &&
-                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
-            return true;
-        }
-        return false;
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 100) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == REQUEST_GPS_PERMISSION) {
+            if (grantResults.length > 0 &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                    grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 enable_buttons();
             } else {
-                runtime_permissions();
+                requestGPSPermission();
+            }
+        }
+        if (requestCode == REQUEST_WRITE_STORAGE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                createFolderforAudio();
             }
         }
     }
@@ -161,13 +194,8 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 
     private void initData() {
-        locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
         try {
             if (backendlessUser == null) {
                 backendlessUser = UserSessionManager.getBackendlessUser();
@@ -177,7 +205,7 @@ public class HomeActivity extends AppCompatActivity {
                     append(" " + backendlessUser.getProperty("last_name").toString());
             datosUser.setText(stringBuilder.toString());
         } catch (BackendlessException e) {
-            BackendlessSettings.showToast(this,"Exception trying to get BackendlessUser - " + e.getMessage());
+            BackendlessSettings.showToast(this, "Exception trying to get BackendlessUser - " + e.getMessage());
         }
         sharedPreferences = getApplicationContext().getSharedPreferences("HOME", MODE_PRIVATE);
         prefsEditor = sharedPreferences.edit();
@@ -221,5 +249,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }
 

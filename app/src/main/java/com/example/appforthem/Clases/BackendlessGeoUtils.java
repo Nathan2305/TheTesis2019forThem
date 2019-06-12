@@ -43,15 +43,15 @@ public class BackendlessGeoUtils {
     }
 
     public static void sendtoChannel(final Context context, String channelName, final double lat, final double lon) {
-        if (/*lat != 0d && lon != 0d &&*/ !channelName.isEmpty()) {
+        if (lat != 0d && lon != 0d && !channelName.isEmpty()) {
             Backendless.Messaging.publish(channelName, lat + " ; " + lon, null, new AsyncCallback<MessageStatus>() {
                 @Override
                 public void handleResponse(MessageStatus response) {
-                    MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.alert_sound);
-                    mediaPlayer.start();
-                    BackendlessSettings.showToast(context, "Alerta envida en la posición " +"\n" +
-                            "Latitud " + lat + "\n" +
-                            " Longitud " + lon);
+                    /*MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.alert_sound);
+                    mediaPlayer.start();*/
+                    BackendlessSettings.showToast(context, "Alerta envida en la posición " + "\n" +
+                            "Latitud :" + lat + "\n" +
+                            "Longitud :" + lon);
                 }
 
                 @Override

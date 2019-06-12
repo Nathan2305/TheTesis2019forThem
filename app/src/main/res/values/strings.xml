@@ -56,6 +56,7 @@
     <string name="pin">Pin</string>
     <string name="clave">Contraseña</string>
     <string name="patron">Patron</string>
+    <string name="ingresar">Ingresar</string>
 
 
 </resources>

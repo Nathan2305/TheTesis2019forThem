@@ -1,6 +1,5 @@
 package com.example.appforthem.Clases;
 
-
 import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Intent;
@@ -12,13 +11,10 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.view.View;
-import android.widget.Toast;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
-
 import static com.example.appforthem.Activities.HomeActivity.FOLDER_AUDIO;
 import static com.example.appforthem.Activities.HomeActivity.locationManager;
 import static com.example.appforthem.Activities.HomeActivity.progressBar;
