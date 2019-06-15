@@ -29,7 +29,10 @@ import com.example.appforthem.Clases.CustomAdapterOptions;
 import com.example.appforthem.Clases.ServiceMap;
 import com.example.appforthem.Clases.UserSessionManager;
 import com.example.appforthem.R;
+import com.github.ybq.android.spinkit.style.Circle;
+import com.github.ybq.android.spinkit.style.FadingCircle;
 import com.github.ybq.android.spinkit.style.MultiplePulseRing;
+import com.github.ybq.android.spinkit.style.Pulse;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -40,31 +43,29 @@ import static com.example.appforthem.Activities.LoginActivity.backendlessUser;
 
 public class HomeActivity extends AppCompatActivity {
     public static String whereActivity = "";
-    private Button btn_alerta;
+    public static Button btn_alerta;
     private TextView datosUser;
     public static SharedPreferences sharedPreferences;
     public static SharedPreferences.Editor prefsEditor;
     private GridView opciones;
     public static ProgressBar progressBar;
-    private MultiplePulseRing multiplePulseRing;
     public static String FOLDER_AUDIO = "";
     private String sdCardState = "";
     public static int REQUEST_WRITE_STORAGE = 1;
     public static int REQUEST_GPS_PERMISSION = 2;
 
-    public static LocationManager locationManager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        createFolderforAudio();
-        multiplePulseRing = new MultiplePulseRing();
         progressBar = findViewById(R.id.pbHome);
+        MultiplePulseRing multiplePulseRing = new MultiplePulseRing();
+        progressBar.setProgressDrawable(multiplePulseRing);
         btn_alerta = findViewById(R.id.alert);
         opciones = findViewById(R.id.opciones);
         datosUser = findViewById(R.id.datosUser);
         requestGPSPermission();
+        createFolderforAudio();
         initData();
         makeGridView();
     }
@@ -76,7 +77,7 @@ public class HomeActivity extends AppCompatActivity {
                 ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                         != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_GPS_PERMISSION);
-        } else {
+        } else { //si ya tiene permisos
             enable_buttons();
         }
     }
@@ -111,24 +112,23 @@ public class HomeActivity extends AppCompatActivity {
 
 
     private void enable_buttons() {
-        locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
         btn_alerta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (Constants.ENVIAR_ALERTA.equalsIgnoreCase(btn_alerta.getText().toString())) {
-                    if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                        sendAlert();
-                        prefsEditor.putString(Constants.BTN_TXT_VALUE, Constants.ALERTA_ENVIADA);
+                    ///if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    sendAlert();
+                        /*prefsEditor.putString(Constants.BTN_TXT_VALUE, Constants.ALERTA_ENVIADA);
                         prefsEditor.putBoolean(Constants.BTN_ENABLED, false);
                         prefsEditor.putBoolean(Constants.ALARMA_ACTIVA, true);
                         prefsEditor.apply();
                         btn_alerta.setText(sharedPreferences.getString(Constants.BTN_TXT_VALUE, ""));
-                        btn_alerta.setEnabled(sharedPreferences.getBoolean(Constants.BTN_ENABLED, true));
-                    } else {
+                        btn_alerta.setEnabled(sharedPreferences.getBoolean(Constants.BTN_ENABLED, true));*/
+                    /*} else {
                         Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(i);
-                    }
+                    }*/
                 }
             }
         });
@@ -151,8 +151,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void sendAlert() {
-        progressBar.setVisibility(View.VISIBLE);
-        progressBar.setProgressDrawable(multiplePulseRing);
+     //   progressBar.setVisibility(View.VISIBLE);
         startService(new Intent(this, ServiceMap.class));
     }
 

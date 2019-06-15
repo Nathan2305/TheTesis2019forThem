@@ -33,8 +33,11 @@ public class ListaAgresoresActivity extends AppCompatActivity {
         progressBar.setProgressDrawable(fadingCircle);
         agresores = findViewById(R.id.agresores);
         layoutManager = new LinearLayoutManager(getApplicationContext());
-        progressBar.setVisibility(View.VISIBLE);
-        Backendless.Data.of(Agresor.class).find(new AsyncCallback<List<Agresor>>() {
+        agresores.setLayoutManager(layoutManager);
+        //progressBar.setVisibility(View.VISIBLE);
+        RecyclerView.Adapter adapter = new AdapterForAgresores(getApplicationContext())/*, response)*/;
+        agresores.setAdapter(adapter);
+        /*Backendless.Data.of(Agresor.class).find(new AsyncCallback<List<Agresor>>() {
             @Override
             public void handleResponse(List<Agresor> response) {
                 int size = response.size();
@@ -52,6 +55,6 @@ public class ListaAgresoresActivity extends AppCompatActivity {
             public void handleFault(BackendlessFault fault) {
                 BackendlessSettings.showToast(getApplicationContext(),"Erros mostrando agresores - "+fault.getMessage());
             }
-        });
+        });*/
     }
 }

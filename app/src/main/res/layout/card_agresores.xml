@@ -5,11 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="20dp">
+    android:padding="10dp">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:elevation="30dp"
         app:cardCornerRadius="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -20,34 +20,9 @@
         card_view:cardUseCompatPadding="true"
         tools:ignore="MissingConstraints">
 
-        <LinearLayout
-            android:orientation="vertical"
+        <VideoView
+            android:id="@+id/videoView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-
-                android:id="@+id/photo_agresor"
-                android:layout_width="wrap_content"
-                android:layout_height="314dp"/>
-
-            <TextView
-                android:id="@+id/nombre_agresor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="GDSGDSAGSDGS"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-
-
-        <!--<TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Ver Agresión"
-            android:textColor="@color/colorFucsia"
-            android:textSize="18sp" />-->
-
+            android:layout_height="0dp" />
     </android.support.v7.widget.CardView>
 </android.support.constraint.ConstraintLayout>

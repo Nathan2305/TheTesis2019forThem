@@ -11,21 +11,23 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.view.View;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
+
 import static com.example.appforthem.Activities.HomeActivity.FOLDER_AUDIO;
-import static com.example.appforthem.Activities.HomeActivity.locationManager;
 import static com.example.appforthem.Activities.HomeActivity.progressBar;
 import static com.example.appforthem.Activities.LoginActivity.backendlessUser;
 
 
 public class ServiceMap extends Service {
-    private static String OUTPUTFILE = "";
     String nameAudio = "";
     MediaRecorder mediaRecorder;
-    LocationListener locationListener;
+    public LocationManager locationManager;
+    String OUTPUTFILE="";
+    public LocationListener locationListener;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -36,6 +38,7 @@ public class ServiceMap extends Service {
     @Override
     public void onCreate() { // the service is created for the first time
         super.onCreate();
+        locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
         DateFormat sdf = DateFormat.getDateInstance();
         DateFormat sdf2 = DateFormat.getTimeInstance();
         Date date = new Date();
@@ -43,22 +46,24 @@ public class ServiceMap extends Service {
         File file = new File(FOLDER_AUDIO, nameAudio);
         try {
             if (file.createNewFile()) {
-                BackendlessSettings.showToast(this,"Se creó el archivo :" + nameAudio);
+                BackendlessSettings.showToast(this, "Se creó el archivo :" + nameAudio);
             } else {
-                BackendlessSettings.showToast(this,"No se creó el archivo :" + nameAudio);
+                BackendlessSettings.showToast(this, "No se creó el archivo :" + nameAudio);
             }
         } catch (IOException e) {
-            BackendlessSettings.showToast(this,"Error creando archivo: " + e.getMessage());
+            BackendlessSettings.showToast(this, "Error creando archivo: " + e.getMessage());
         }
     }
 
     @SuppressLint("MissingPermission")
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        System.out.println("ON STARTCOMAND"); // No se repite
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                if (location.getLatitude()!=0 && location.getLongitude()!=0) {
+                progressBar.setVisibility(View.VISIBLE);
+                if (location.getLatitude() != 0 && location.getLongitude() != 0) {
                     if (backendlessUser != null) {
                         sendToChannel(backendlessUser.getEmail(), location.getLatitude(), location.getLongitude());
                     }
@@ -74,19 +79,20 @@ public class ServiceMap extends Service {
                /* Intent i = new Intent(Constants.GPS_ON);
                 i.putExtra(Constants.GPS_ON, "on");
                 sendBroadcast(i);*/
+                System.out.println("onProviderEnabled");
             }
 
             @Override
             public void onProviderDisabled(String s) {
-               BackendlessSettings.showToast(getApplicationContext(),"GPS Desactivado!!");
+                BackendlessSettings.showToast(getApplicationContext(), "GPS Desactivado!!");
                 Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
             }
         };
+
         if (locationListener != null) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0, locationListener);
-            progressBar.setVisibility(View.GONE);
         }
 
         /*GRABACIÓN DE AUDIO*/
@@ -100,7 +106,7 @@ public class ServiceMap extends Service {
             mediaRecorder.prepare();
             mediaRecorder.start();
         } catch (IOException e) {
-            BackendlessSettings.showToast(this,e.getMessage());
+            BackendlessSettings.showToast(this, e.getMessage());
         }
         /*FIN GRABACIÓN DE AUDIO*/
         return START_STICKY;
@@ -115,15 +121,15 @@ public class ServiceMap extends Service {
         if (mediaRecorder != null) {
             mediaRecorder.stop();
             mediaRecorder.release();
-            mediaRecorder=null;
+            mediaRecorder = null;
             BackendlessSettings.showToast(this, "Servicio Detenido");
-        }else{
-            BackendlessSettings.showToast(this,"Aún no has iniciado el servicio");
+        } else {
+            BackendlessSettings.showToast(this, "Aún no has iniciado el servicio");
         }
     }
 
     public void sendToChannel(String channelName, double lat, double lon) {
-        BackendlessGeoUtils.sendtoChannel(this,channelName, lat, lon);
+        BackendlessGeoUtils.sendtoChannel(this, channelName, lat, lon);
     }
 
     @Override
