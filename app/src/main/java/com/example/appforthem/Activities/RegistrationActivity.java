@@ -6,20 +6,14 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
-import com.backendless.exceptions.BackendlessFault;
-import com.example.appforthem.Clases.BackendlessSettings;
-import com.example.appforthem.Clases.LoadingCallback;
+import com.example.appforthem.Clases.Utils;
 import com.example.appforthem.Clases.Validator;
 import com.example.appforthem.R;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -27,7 +21,7 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-        Backendless.initApp(getApplicationContext(), BackendlessSettings.APPLICATION_ID, BackendlessSettings.ANDROID_SECRET_KEY);
+        Backendless.initApp(getApplicationContext(), Utils.APPLICATION_ID, Utils.ANDROID_SECRET_KEY);
         View decorView = getWindow().getDecorView();
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);

@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -21,7 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.backendless.exceptions.BackendlessException;
-import com.example.appforthem.Clases.BackendlessSettings;
+import com.example.appforthem.Clases.Utils;
 import com.example.appforthem.Clases.Constants;
 import com.example.appforthem.Clases.CustomAdapterOptions;
 import com.example.appforthem.Clases.ServiceMap;
@@ -88,9 +87,9 @@ public class HomeActivity extends AppCompatActivity {
                 if (!file.exists()) {
                     try {
                         if (file.mkdirs()) {  //crea directios incluyendo la carpeta padre
-                            BackendlessSettings.showToast(getApplicationContext(), "Se creó el directorio " + FOLDER_AUDIO);
+                            Utils.showToast(getApplicationContext(), "Se creó el directorio " + FOLDER_AUDIO);
                         } else {
-                            BackendlessSettings.showToast(getApplicationContext(), "No se creó el directorio " + FOLDER_AUDIO);
+                            Utils.showToast(getApplicationContext(), "No se creó el directorio " + FOLDER_AUDIO);
                         }
                     } catch (SecurityException e) {
                         System.out.println("Excepcion reading File " + e.getMessage());
@@ -110,10 +109,13 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (Constants.ENVIAR_ALERTA.equalsIgnoreCase(btn_alerta.getText().toString())) {
                     prefsEditor.putBoolean(Constants.BTN_ENABLED, false); //deshabilta boton
-                    btn_alerta.setEnabled(!sharedPreferences.getBoolean(Constants.BTN_ENABLED, true));
+                    prefsEditor.putString(Constants.BTN_TXT_VALUE,"ENVIANDO ALERTA..");
+                    prefsEditor.apply();
+                    btn_alerta.setEnabled(sharedPreferences.getBoolean(Constants.BTN_ENABLED, true));
+                    btn_alerta.setText(sharedPreferences.getString(Constants.BTN_TXT_VALUE, ""));
                     sendAlert();
                 } else {
-                    stopAlert();
+                    //stopAlert();
                 }
             }
         });
@@ -188,7 +190,7 @@ public class HomeActivity extends AppCompatActivity {
                     append(" " + backendlessUser.getProperty("last_name").toString());
             datosUser.setText(stringBuilder.toString());
         } catch (BackendlessException e) {
-            BackendlessSettings.showToast(this, "Exception trying to get BackendlessUser - " + e.getMessage());
+            Utils.showToast(this, "Exception trying to get BackendlessUser - " + e.getMessage());
         }
         sharedPreferences = getApplicationContext().getSharedPreferences("HOME", MODE_PRIVATE);
         prefsEditor = sharedPreferences.edit();

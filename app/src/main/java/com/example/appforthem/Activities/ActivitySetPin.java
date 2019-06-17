@@ -1,7 +1,6 @@
 package com.example.appforthem.Activities;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.appforthem.Clases.BackendlessSettings;
+import com.example.appforthem.Clases.Utils;
 import com.example.appforthem.Clases.Constants;
 import com.example.appforthem.R;
 
@@ -131,13 +130,13 @@ public class ActivitySetPin extends AppCompatActivity {
                                         k2.equalsIgnoreCase(k2_2) &&
                                         k3.equalsIgnoreCase(k3_2) &&
                                         k4.equalsIgnoreCase(k4_2)){
-                                    BackendlessSettings.showToast(getApplicationContext(),"Nuevo Pin guardado con éxito");
+                                    Utils.showToast(getApplicationContext(),"Nuevo Pin guardado con éxito");
                                     prefsEditor.putString(Constants.SET_PIN,k1+k2+k3+k4);
                                     prefsEditor.putBoolean(Constants.PIN_ENABLED,true);
                                     prefsEditor.apply();
                                     finish();
                                 }else{
-                                    BackendlessSettings.showToast(getApplicationContext(),"Pin no coinciden");
+                                    Utils.showToast(getApplicationContext(),"Pin no coinciden");
                                 }
                             }
                         }

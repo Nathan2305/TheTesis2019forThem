@@ -6,8 +6,9 @@ public class Constants {
     public static final String COLOR_BUTTON ="COLOR_BUTTON" ;
     public static final String ESPERANDO_GPS ="ESPERANDO GPS" ;
     public static String ALARMA_ACTIVA="ALARMA_ACTIVA";
+    public static String ENVIANDO_ALERTA="ENVIANDO_ALERTA";
     public static String ENVIAR_ALERTA="ENVIAR ALERTA";
-    public static String ALERTA_ENVIADA="DETENER ALERTA";
+    public static String ALERTA_ENVIADA="ALERTA ENVIADA";
     public static String BTN_ENABLED="BTN_ENABLED";
     public static String BTN_TXT_VALUE="BTN_TXT_VALUE";
     public static String ACTIVAR_ALARMA="Activar Alarma";

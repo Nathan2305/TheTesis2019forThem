@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.andrognito.patternlockview.PatternLockView;
 import com.andrognito.patternlockview.listener.PatternLockViewListener;
 import com.andrognito.patternlockview.utils.PatternLockUtils;
-import com.example.appforthem.Clases.BackendlessSettings;
+import com.example.appforthem.Clases.Utils;
 import com.example.appforthem.Clases.Constants;
 import com.example.appforthem.R;
 
@@ -51,9 +51,9 @@ public class ActivitySetPatron extends AppCompatActivity {
             if (count > 0) {
                 if (sharedPreferences.contains("total_clave")) {
                     if (!sharedPreferences.getString("total_clave", "").equalsIgnoreCase(PatternLockUtils.patternToString(mPatternLockView, pattern))) {
-                        BackendlessSettings.showToast(getApplicationContext(), "Patron no coinciden");
+                        Utils.showToast(getApplicationContext(), "Patron no coinciden");
                     } else {
-                        BackendlessSettings.showToast(getApplicationContext(), "Nuevo patron guardado con éxito");
+                        Utils.showToast(getApplicationContext(), "Nuevo patron guardado con éxito");
                         prefsEditor.putString("WHAT_KIND_SEC", Constants.PATRON);
                         prefsEditor.apply();
                         finish();

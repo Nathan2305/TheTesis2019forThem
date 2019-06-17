@@ -91,11 +91,11 @@
         android:id="@+id/gpsStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        app:layout_constraintBottom_toTopOf="@id/alert"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/alert"
-        android:gravity="center_horizontal"
         app:layout_constraintTop_toBottomOf="@+id/opciones"
         tools:ignore="MissingConstraints" />
 </android.support.constraint.ConstraintLayout>

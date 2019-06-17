@@ -29,9 +29,9 @@
 
     <ImageView
         android:id="@+id/faceWoman"
-        android:layout_width="100dp"
-        android:layout_height="160dp"
-        android:src="@drawable/woman_face2"
+        android:layout_width="150dp"
+        android:layout_height="200dp"
+        android:src="@drawable/ic_woman"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

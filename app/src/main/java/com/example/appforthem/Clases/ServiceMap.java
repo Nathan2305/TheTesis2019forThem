@@ -12,8 +12,6 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.view.View;
 
-import com.example.appforthem.R;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -21,7 +19,6 @@ import java.util.Date;
 
 import static com.example.appforthem.Activities.HomeActivity.FOLDER_AUDIO;
 import static com.example.appforthem.Activities.HomeActivity.btn_alerta;
-import static com.example.appforthem.Activities.HomeActivity.gpsStatus;
 import static com.example.appforthem.Activities.HomeActivity.prefsEditor;
 import static com.example.appforthem.Activities.HomeActivity.progressBar;
 import static com.example.appforthem.Activities.HomeActivity.sharedPreferences;
@@ -52,12 +49,12 @@ public class ServiceMap extends Service {
         File file = new File(FOLDER_AUDIO, nameAudio);
         try {
             if (file.createNewFile()) {
-                BackendlessSettings.showToast(this, "Se creó el archivo :" + nameAudio);
+                Utils.showToast(this, "Se creó el archivo :" + nameAudio);
             } else {
-                BackendlessSettings.showToast(this, "No se creó el archivo :" + nameAudio);
+                Utils.showToast(this, "No se creó el archivo :" + nameAudio);
             }
         } catch (IOException e) {
-            BackendlessSettings.showToast(this, "Error creando archivo: " + e.getMessage());
+            Utils.showToast(this, "Error creando archivo: " + e.getMessage());
         }
     }
 
@@ -80,25 +77,23 @@ public class ServiceMap extends Service {
 
             @Override
             public void onProviderEnabled(String s) {
+                System.out.println("onProviderEnabled");  // NO EMTRA AL BUCLE
                 progressBar.setVisibility(View.VISIBLE);
-                prefsEditor.putString(Constants.BTN_TXT_VALUE, Constants.ALERTA_ENVIADA);
-                prefsEditor.apply();
-                btn_alerta.setText(sharedPreferences.getString(Constants.BTN_TXT_VALUE, ""));
-                //btn_alerta.setEnabled(!sharedPreferences.getBoolean(Constants.BTN_ENABLED, true));
+                if (!Constants.ENVIANDO_ALERTA.equalsIgnoreCase(sharedPreferences.getString(Constants.BTN_TXT_VALUE, ""))) {
+                    prefsEditor.putString(Constants.BTN_TXT_VALUE, Constants.ENVIANDO_ALERTA);
+                    prefsEditor.apply();
+                    btn_alerta.setText(sharedPreferences.getString(Constants.BTN_TXT_VALUE, ""));
+                }
             }
 
             @Override
             public void onProviderDisabled(String s) {
-                BackendlessSettings.showToast(getApplicationContext(), "Activa el GPS para seguir mandando tu alerta!!!");
+                System.out.println("onProviderDisabled"); // NO EMTRA AL BUCLE
+                Utils.showToast(getApplicationContext(), "Activa el GPS para compartir tu ubicación!!!");
                 progressBar.setVisibility(View.GONE);
-                // if (sharedPreferences.getBoolean(Constants.BTN_ENABLED, true)) {
-                // prefsEditor.putBoolean(Constants.BTN_ENABLED, false);
-                prefsEditor.putString(Constants.BTN_TXT_VALUE, Constants.ALERTA_ENVIADA);
+                prefsEditor.putString(Constants.BTN_TXT_VALUE, Constants.ESPERANDO_GPS);
                 prefsEditor.apply();
                 btn_alerta.setText(sharedPreferences.getString(Constants.BTN_TXT_VALUE, ""));
-                gpsStatus.setText("Esperando GPS.....");
-                //btn_alerta.setEnabled(sharedPreferences.getBoolean(Constants.BTN_ENABLED, true));
-                //}
                 Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
@@ -118,7 +113,7 @@ public class ServiceMap extends Service {
             mediaRecorder.prepare();
             mediaRecorder.start();
         } catch (IOException e) {
-            BackendlessSettings.showToast(this, e.getMessage());
+            Utils.showToast(this, e.getMessage());
         }*/
         /*FIN GRABACIÓN DE AUDIO*/
         return START_STICKY;
@@ -141,9 +136,9 @@ public class ServiceMap extends Service {
             mediaRecorder.stop();
             mediaRecorder.release();
             mediaRecorder = null;
-            BackendlessSettings.showToast(this, "Servicio Detenido");
+            Utils.showToast(this, "Servicio Detenido");
         } else {
-            BackendlessSettings.showToast(this, "Aún no has iniciado el servicio");
+            Utils.showToast(this, "Aún no has iniciado el servicio");
         }
     }
 

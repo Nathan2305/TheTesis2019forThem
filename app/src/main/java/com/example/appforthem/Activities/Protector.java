@@ -21,7 +21,7 @@ import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.DataQueryBuilder;
-import com.example.appforthem.Clases.BackendlessSettings;
+import com.example.appforthem.Clases.Utils;
 import com.example.appforthem.Clases.CustomAdapterHelpers;
 import com.example.appforthem.Clases.CustomAdapterHelpersDialog;
 import com.example.appforthem.Clases.Helper;
@@ -101,7 +101,7 @@ public class Protector extends AppCompatActivity {
     }
 
     private void loadProtectors() {
-        Backendless.initApp(getApplicationContext(), BackendlessSettings.APPLICATION_ID, BackendlessSettings.ANDROID_SECRET_KEY);
+        Backendless.initApp(getApplicationContext(), Utils.APPLICATION_ID, Utils.ANDROID_SECRET_KEY);
         StringBuilder whereClause = new StringBuilder();
         whereClause.append("Users[helper_email]");
         whereClause.append(".objectId='").append(backendlessUser.getObjectId()).append("'");
@@ -114,7 +114,7 @@ public class Protector extends AppCompatActivity {
                 if (size > 0) {
                     loadHelperBackend(size, response);
                 } else {
-                    BackendlessSettings.showToast(getApplicationContext(), "Todavía no tienes protectores agregados");
+                    Utils.showToast(getApplicationContext(), "Todavía no tienes protectores agregados");
                     progressBar.setVisibility(View.GONE);
 
                 }
@@ -122,7 +122,7 @@ public class Protector extends AppCompatActivity {
 
             @Override
             public void handleFault(BackendlessFault fault) {
-                BackendlessSettings.showToast(getApplicationContext(), "Error al cargar protectores : " + fault.getMessage());
+                Utils.showToast(getApplicationContext(), "Error al cargar protectores : " + fault.getMessage());
                 progressBar.setVisibility(View.GONE);
 
             }
@@ -130,7 +130,7 @@ public class Protector extends AppCompatActivity {
     }
 
     private void loadHelperBackend(int size, List<Helper> response) {
-        Backendless.initApp(getApplicationContext(), BackendlessSettings.APPLICATION_ID_HELPERS, BackendlessSettings.ANDROID_SECRET_KEY_HELPERS);
+        Backendless.initApp(getApplicationContext(), Utils.APPLICATION_ID_HELPERS, Utils.ANDROID_SECRET_KEY_HELPERS);
         DataQueryBuilder dataQueryBuilder = DataQueryBuilder.create();
         StringBuilder sb = new StringBuilder();
         for (int k = 0; k < size; k++) {
@@ -149,14 +149,14 @@ public class Protector extends AppCompatActivity {
                     gridHelper.setAdapter(adapter);
                     progressBar.setVisibility(View.GONE);
                 } else {
-                    BackendlessSettings.showToast(getApplicationContext(), "Todavía no tienes protectores agregados");
+                    Utils.showToast(getApplicationContext(), "Todavía no tienes protectores agregados");
                     progressBar.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void handleFault(BackendlessFault fault) {
-                BackendlessSettings.showToast(getApplicationContext(), "Error trying to get Data.. " + fault.getMessage());
+                Utils.showToast(getApplicationContext(), "Error trying to get Data.. " + fault.getMessage());
                 progressBar.setVisibility(View.GONE);
 
             }
@@ -164,7 +164,7 @@ public class Protector extends AppCompatActivity {
     }
 
     public void showHelpersDialog(final RecyclerView recyclerView, String dataHelper) {
-        Backendless.initApp(getApplicationContext(), BackendlessSettings.APPLICATION_ID_HELPERS, BackendlessSettings.ANDROID_SECRET_KEY_HELPERS);
+        Backendless.initApp(getApplicationContext(), Utils.APPLICATION_ID_HELPERS, Utils.ANDROID_SECRET_KEY_HELPERS);
         RecyclerView.LayoutManager layoutManager;
         layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -180,7 +180,7 @@ public class Protector extends AppCompatActivity {
 
             @Override
             public void handleFault(BackendlessFault fault) {
-                BackendlessSettings.showToast(getApplicationContext(), "Error al buscar protectores... " + fault.getMessage());
+                Utils.showToast(getApplicationContext(), "Error al buscar protectores... " + fault.getMessage());
             }
         });
     }

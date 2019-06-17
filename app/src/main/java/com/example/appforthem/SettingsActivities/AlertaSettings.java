@@ -57,13 +57,6 @@ public class AlertaSettings extends AppCompatActivity {
                         prefsEditor.apply();
                         switchAlarma.setText(sharedPreferences.getString(Constants.SWITCH_ALARMA_TEXT, ""));
                     }
-                  /*  startService(new Intent(getApplicationContext(), ServiceMap.class));
-                    prefsEditor.putBoolean(Constants.ALARMA_ACTIVA, true);
-                    prefsEditor.putBoolean(Constants.BTN_ENABLED, false);
-                    prefsEditor.putString(Constants.BTN_TXT_VALUE, "ALERTA ENVIADA");
-                    prefsEditor.putString(Constants.SWITCH_ALARMA_TEXT, Constants.DESACTIVAR_ALARMA);
-                    prefsEditor.apply();
-                    switchAlarma.setText(sharedPreferences.getString(Constants.SWITCH_ALARMA_TEXT, ""));*/
                 }
             }
         });

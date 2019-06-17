@@ -22,7 +22,7 @@ import android.widget.Toast;
 import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
-import com.example.appforthem.Clases.BackendlessSettings;
+import com.example.appforthem.Clases.Utils;
 import com.example.appforthem.Clases.LoadingCallback;
 import com.example.appforthem.Clases.UserSessionManager;
 import com.example.appforthem.R;
@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Backendless.initApp(getApplicationContext(), BackendlessSettings.APPLICATION_ID, BackendlessSettings.ANDROID_SECRET_KEY);
+        Backendless.initApp(getApplicationContext(), Utils.APPLICATION_ID, Utils.ANDROID_SECRET_KEY);
         progressBar = findViewById(R.id.pbarLogin);
         constraintLayout = findViewById(R.id.parent);
         makeRegistrationLink();
