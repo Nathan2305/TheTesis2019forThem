@@ -6,6 +6,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.CompoundButton;
+import android.widget.ListAdapter;
 import android.widget.Switch;
 
 import com.example.appforthem.Clases.Constants;

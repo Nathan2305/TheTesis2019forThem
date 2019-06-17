@@ -28,7 +28,7 @@ import static com.example.appforthem.Activities.LoginActivity.backendlessUser;
 
 public class BackendlessGeoUtils {
     List<Agresor> lista = null;
-    static int count=0;
+    static int count = 0;
 
     public BackendlessGeoUtils() {
     }
@@ -49,20 +49,22 @@ public class BackendlessGeoUtils {
 
     public static void sendtoChannel(final Context context, String channelName, final double lat, final double lon) {
         if (lat != 0d && lon != 0d && !channelName.isEmpty()) {
+           /* MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.alert_sound);
+            mediaPlayer.start();*/
             Backendless.Messaging.publish(channelName, lat + " ; " + lon, null, new AsyncCallback<MessageStatus>() {
                 @Override
                 public void handleResponse(MessageStatus response) {
+                    progressBar.setVisibility(View.GONE);
                     count++;
-                    /*MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.alert_sound);
-                    mediaPlayer.start();*/
-                    if (count==1){
+                   if (count == 1) {
                         prefsEditor.putString(Constants.BTN_TXT_VALUE, Constants.ALERTA_ENVIADA);
-                        prefsEditor.putBoolean(Constants.BTN_ENABLED, false);
+                       // prefsEditor.putBoolean(Constants.BTN_ENABLED, true);
                         prefsEditor.putBoolean(Constants.ALARMA_ACTIVA, true);
                         prefsEditor.apply();
                         btn_alerta.setText(sharedPreferences.getString(Constants.BTN_TXT_VALUE, ""));
-                        btn_alerta.setEnabled(sharedPreferences.getBoolean(Constants.BTN_ENABLED, true));
+                        //btn_alerta.setEnabled(sharedPreferences.getBoolean(Constants.BTN_ENABLED, true));
                         progressBar.setVisibility(View.GONE);
+                        count = 0;
                     }
                     BackendlessSettings.showToast(context, "Alerta envida en la posición " + "\n" +
                             "Latitud :" + lat + "\n" +

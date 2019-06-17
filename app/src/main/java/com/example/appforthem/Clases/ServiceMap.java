@@ -12,13 +12,19 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.view.View;
 
+import com.example.appforthem.R;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
 
 import static com.example.appforthem.Activities.HomeActivity.FOLDER_AUDIO;
+import static com.example.appforthem.Activities.HomeActivity.btn_alerta;
+import static com.example.appforthem.Activities.HomeActivity.gpsStatus;
+import static com.example.appforthem.Activities.HomeActivity.prefsEditor;
 import static com.example.appforthem.Activities.HomeActivity.progressBar;
+import static com.example.appforthem.Activities.HomeActivity.sharedPreferences;
 import static com.example.appforthem.Activities.LoginActivity.backendlessUser;
 
 
@@ -26,7 +32,6 @@ public class ServiceMap extends Service {
     String nameAudio = "";
     MediaRecorder mediaRecorder;
     public LocationManager locationManager;
-    String OUTPUTFILE="";
     public LocationListener locationListener;
 
     @Override
@@ -39,6 +44,7 @@ public class ServiceMap extends Service {
     public void onCreate() { // the service is created for the first time
         super.onCreate();
         locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
+        progressBar.setVisibility(View.VISIBLE);
         DateFormat sdf = DateFormat.getDateInstance();
         DateFormat sdf2 = DateFormat.getTimeInstance();
         Date date = new Date();
@@ -58,11 +64,9 @@ public class ServiceMap extends Service {
     @SuppressLint("MissingPermission")
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        System.out.println("ON STARTCOMAND"); // No se repite
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                progressBar.setVisibility(View.VISIBLE);
                 if (location.getLatitude() != 0 && location.getLongitude() != 0) {
                     if (backendlessUser != null) {
                         sendToChannel(backendlessUser.getEmail(), location.getLatitude(), location.getLongitude());
@@ -76,27 +80,35 @@ public class ServiceMap extends Service {
 
             @Override
             public void onProviderEnabled(String s) {
-               /* Intent i = new Intent(Constants.GPS_ON);
-                i.putExtra(Constants.GPS_ON, "on");
-                sendBroadcast(i);*/
-                System.out.println("onProviderEnabled");
+                progressBar.setVisibility(View.VISIBLE);
+                prefsEditor.putString(Constants.BTN_TXT_VALUE, Constants.ALERTA_ENVIADA);
+                prefsEditor.apply();
+                btn_alerta.setText(sharedPreferences.getString(Constants.BTN_TXT_VALUE, ""));
+                //btn_alerta.setEnabled(!sharedPreferences.getBoolean(Constants.BTN_ENABLED, true));
             }
 
             @Override
             public void onProviderDisabled(String s) {
-                BackendlessSettings.showToast(getApplicationContext(), "GPS Desactivado!!");
+                BackendlessSettings.showToast(getApplicationContext(), "Activa el GPS para seguir mandando tu alerta!!!");
+                progressBar.setVisibility(View.GONE);
+                // if (sharedPreferences.getBoolean(Constants.BTN_ENABLED, true)) {
+                // prefsEditor.putBoolean(Constants.BTN_ENABLED, false);
+                prefsEditor.putString(Constants.BTN_TXT_VALUE, Constants.ALERTA_ENVIADA);
+                prefsEditor.apply();
+                btn_alerta.setText(sharedPreferences.getString(Constants.BTN_TXT_VALUE, ""));
+                gpsStatus.setText("Esperando GPS.....");
+                //btn_alerta.setEnabled(sharedPreferences.getBoolean(Constants.BTN_ENABLED, true));
+                //}
                 Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
             }
         };
-
         if (locationListener != null) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0, locationListener);
         }
-
         /*GRABACIÓN DE AUDIO*/
-        try {
+        /*try {
             OUTPUTFILE = FOLDER_AUDIO + "/" + nameAudio;
             mediaRecorder = new MediaRecorder();
             mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -107,7 +119,7 @@ public class ServiceMap extends Service {
             mediaRecorder.start();
         } catch (IOException e) {
             BackendlessSettings.showToast(this, e.getMessage());
-        }
+        }*/
         /*FIN GRABACIÓN DE AUDIO*/
         return START_STICKY;
     }
@@ -117,6 +129,13 @@ public class ServiceMap extends Service {
         super.onDestroy();
         if (locationManager != null) {
             locationManager.removeUpdates(locationListener);
+            prefsEditor.putString(Constants.BTN_TXT_VALUE, Constants.ENVIAR_ALERTA);
+            prefsEditor.putBoolean(Constants.BTN_ENABLED, true);
+            prefsEditor.putBoolean(Constants.ALARMA_ACTIVA, false);
+            prefsEditor.apply();
+            btn_alerta.setText(sharedPreferences.getString(Constants.BTN_TXT_VALUE, ""));
+            btn_alerta.setEnabled(sharedPreferences.getBoolean(Constants.BTN_ENABLED, true));
+            progressBar.setVisibility(View.GONE);
         }
         if (mediaRecorder != null) {
             mediaRecorder.stop();

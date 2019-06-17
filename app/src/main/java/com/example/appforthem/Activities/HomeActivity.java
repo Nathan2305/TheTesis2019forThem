@@ -4,11 +4,9 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Environment;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -29,15 +27,9 @@ import com.example.appforthem.Clases.CustomAdapterOptions;
 import com.example.appforthem.Clases.ServiceMap;
 import com.example.appforthem.Clases.UserSessionManager;
 import com.example.appforthem.R;
-import com.github.ybq.android.spinkit.style.Circle;
-import com.github.ybq.android.spinkit.style.FadingCircle;
 import com.github.ybq.android.spinkit.style.MultiplePulseRing;
-import com.github.ybq.android.spinkit.style.Pulse;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 
 import static com.example.appforthem.Activities.LoginActivity.backendlessUser;
 
@@ -47,12 +39,13 @@ public class HomeActivity extends AppCompatActivity {
     private TextView datosUser;
     public static SharedPreferences sharedPreferences;
     public static SharedPreferences.Editor prefsEditor;
-    private GridView opciones;
+    public GridView opciones;
     public static ProgressBar progressBar;
     public static String FOLDER_AUDIO = "";
     private String sdCardState = "";
     public static int REQUEST_WRITE_STORAGE = 1;
     public static int REQUEST_GPS_PERMISSION = 2;
+    public static TextView gpsStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +57,7 @@ public class HomeActivity extends AppCompatActivity {
         btn_alerta = findViewById(R.id.alert);
         opciones = findViewById(R.id.opciones);
         datosUser = findViewById(R.id.datosUser);
+        gpsStatus=findViewById(R.id.gpsStatus);
         requestGPSPermission();
         createFolderforAudio();
         initData();
@@ -110,30 +104,28 @@ public class HomeActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE);
     }
 
-
     private void enable_buttons() {
         btn_alerta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (Constants.ENVIAR_ALERTA.equalsIgnoreCase(btn_alerta.getText().toString())) {
-                    ///if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    prefsEditor.putBoolean(Constants.BTN_ENABLED, false); //deshabilta boton
+                    btn_alerta.setEnabled(!sharedPreferences.getBoolean(Constants.BTN_ENABLED, true));
                     sendAlert();
-                        /*prefsEditor.putString(Constants.BTN_TXT_VALUE, Constants.ALERTA_ENVIADA);
-                        prefsEditor.putBoolean(Constants.BTN_ENABLED, false);
-                        prefsEditor.putBoolean(Constants.ALARMA_ACTIVA, true);
-                        prefsEditor.apply();
-                        btn_alerta.setText(sharedPreferences.getString(Constants.BTN_TXT_VALUE, ""));
-                        btn_alerta.setEnabled(sharedPreferences.getBoolean(Constants.BTN_ENABLED, true));*/
-                    /*} else {
-                        Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(i);
-                    }*/
+                } else {
+                    stopAlert();
                 }
             }
         });
     }
 
+    private void sendAlert() {
+        startService(new Intent(this, ServiceMap.class));
+    }
+
+    private void stopAlert() {
+        stopService(new Intent(getApplicationContext(), ServiceMap.class));
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -149,12 +141,6 @@ public class HomeActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    private void sendAlert() {
-     //   progressBar.setVisibility(View.VISIBLE);
-        startService(new Intent(this, ServiceMap.class));
-    }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -175,7 +161,6 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -192,7 +177,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
     }
-
 
     private void initData() {
         try {
@@ -211,8 +195,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void makeGridView() {
-        int images[] = new int[]{R.drawable.alerta, R.drawable.agresor, R.drawable.map_icon, R.drawable.audio_icon,
-                R.drawable.woman_profile2, R.drawable.settings};
+        int images[] = new int[]{R.drawable.ic_protector, R.drawable.ic_agresor, R.drawable.ic_action_name, R.drawable.ic_audio,
+                R.drawable.woman_profile2, R.drawable.ic_setting};
         String titulo[] = new String[]{"Protector", "Agresores", "Ubicación", "Audios", "Opcion 5", "Ajustes"};
         CustomAdapterOptions adapterOptions = new CustomAdapterOptions(getApplicationContext(), images, titulo);
         opciones.setAdapter(adapterOptions);
@@ -248,7 +232,5 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
-
-
 }
 
