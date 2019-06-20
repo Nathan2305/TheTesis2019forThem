@@ -3,7 +3,7 @@ package com.example.appforthem.Clases;
 public class Constants {
     public static final String SET_PIN ="SET_PIN" ;
     public static final String PIN_ENABLED ="PIN_ENABLED" ;
-    private static final String ESPERANDO_GPS ="ESPERANDO GPS" ;
+    public static final String ESPERANDO_GPS ="ESPERANDO GPS" ;
     public static String ALARMA_ACTIVA="ALARMA_ACTIVA";
     public static String ENVIANDO_ALERTA="ENVIANDO ALERTA..";
     public static String ENVIAR_ALERTA="ENVIAR ALERTA";
