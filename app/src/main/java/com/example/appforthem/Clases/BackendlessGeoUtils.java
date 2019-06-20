@@ -18,16 +18,13 @@ import static com.example.appforthem.Activities.HomeActivity.progressBar;
 import static com.example.appforthem.Activities.HomeActivity.sharedPreferences;
 
 public class BackendlessGeoUtils {
-    List<Agresor> lista = null;
     static int count = 0;
 
-    public BackendlessGeoUtils() {
-    }
 
     public static void sendtoChannel(final Context context, String channelName, final double lat, final double lon) {
         if (lat != 0d && lon != 0d && !channelName.isEmpty()) {
-            MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.alert_sound);
-            mediaPlayer.start();
+            /*MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.alert_sound);
+            mediaPlayer.start();*/
             Backendless.Messaging.publish(channelName, lat + " ; " + lon, null, new AsyncCallback<MessageStatus>() {
                 @Override
                 public void handleResponse(MessageStatus response) {

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp"
-    tools:context=".Activities.ListaAgresoresActivity">
+    tools:context=".Activities.AgresorActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/agresores"
@@ -14,7 +14,7 @@
 
     </android.support.v7.widget.RecyclerView>
 
-    <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.github.ybq.android.spinkit.SpinKitView
         android:id="@+id/pbAgresores"
         style="@style/SpinKitView.FadingCircle"
         android:layout_width="100dp"

@@ -10,6 +10,7 @@ import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 
 import java.io.File;
@@ -30,6 +31,7 @@ public class ServiceMap extends Service {
     MediaRecorder mediaRecorder;
     public LocationManager locationManager;
     public LocationListener locationListener;
+    private static final String TAG = ServiceMap.class.getSimpleName();
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -40,6 +42,7 @@ public class ServiceMap extends Service {
     @Override
     public void onCreate() { // the service is created for the first time
         super.onCreate();
+        Log.i(TAG, "onCreate()");
         locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
         progressBar.setVisibility(View.VISIBLE);
         DateFormat sdf = DateFormat.getDateInstance();
@@ -131,6 +134,7 @@ public class ServiceMap extends Service {
             btn_alerta.setText(sharedPreferences.getString(Constants.BTN_TXT_VALUE, ""));
             btn_alerta.setEnabled(sharedPreferences.getBoolean(Constants.BTN_ENABLED, true));
             progressBar.setVisibility(View.GONE);
+            locationManager=null;
         }
         if (mediaRecorder != null) {
             mediaRecorder.stop();
@@ -140,6 +144,7 @@ public class ServiceMap extends Service {
         } else {
             Utils.showToast(this, "Aún no has iniciado el servicio");
         }
+        Log.i(TAG, "onDestroy()");
     }
 
     public void sendToChannel(String channelName, double lat, double lon) {
@@ -149,5 +154,7 @@ public class ServiceMap extends Service {
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
+        Log.i(TAG, "onTaskRemoved()");
     }
+
 }

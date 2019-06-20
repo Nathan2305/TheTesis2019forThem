@@ -82,7 +82,7 @@ public class AlertaSettings extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         prefsEditor.putBoolean(Constants.ALARMA_ACTIVA, true);
                         prefsEditor.putBoolean(Constants.BTN_ENABLED, false);
-                        prefsEditor.putString(Constants.BTN_TXT_VALUE, Constants.ALERTA_ENVIADA);
+                        prefsEditor.putString(Constants.BTN_TXT_VALUE, Constants.ENVIANDO_ALERTA);
                         prefsEditor.putString(Constants.SWITCH_ALARMA_TEXT, Constants.DESACTIVAR_ALARMA);
                         prefsEditor.apply();
                         switchAlarma.setChecked(sharedPreferences.getBoolean(Constants.ALARMA_ACTIVA, true));

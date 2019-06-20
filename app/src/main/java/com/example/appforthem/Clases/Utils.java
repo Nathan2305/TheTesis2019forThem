@@ -13,8 +13,8 @@ public class Utils {
     public static final String ANDROID_SECRET_KEY_HELPERS = "3A9B10BF-7C49-AC90-FFFC-50A69504CE00";
 
 
-    public static void showToast(Context context,String msg){
-        Toast.makeText(context,msg,Toast.LENGTH_SHORT).show();
+    public static void showToast(Context context, String msg) {
+        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
     }
 
 }

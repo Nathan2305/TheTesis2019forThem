@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,18 +46,20 @@ public class HomeActivity extends AppCompatActivity {
     public static int REQUEST_WRITE_STORAGE = 1;
     public static int REQUEST_GPS_PERMISSION = 2;
     public static TextView gpsStatus;
+    private final String TAG = HomeActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        Log.i(TAG, "onCreate()");
         progressBar = findViewById(R.id.pbHome);
         MultiplePulseRing multiplePulseRing = new MultiplePulseRing();
         progressBar.setProgressDrawable(multiplePulseRing);
         btn_alerta = findViewById(R.id.alert);
         opciones = findViewById(R.id.opciones);
         datosUser = findViewById(R.id.datosUser);
-        gpsStatus=findViewById(R.id.gpsStatus);
+        gpsStatus = findViewById(R.id.gpsStatus);
         requestGPSPermission();
         createFolderforAudio();
         initData();
@@ -109,13 +112,14 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (Constants.ENVIAR_ALERTA.equalsIgnoreCase(btn_alerta.getText().toString())) {
                     prefsEditor.putBoolean(Constants.BTN_ENABLED, false); //deshabilta boton
-                    prefsEditor.putString(Constants.BTN_TXT_VALUE,"ENVIANDO ALERTA..");
+                    prefsEditor.putString(Constants.BTN_TXT_VALUE, "ENVIANDO ALERTA..");
                     prefsEditor.apply();
                     btn_alerta.setEnabled(sharedPreferences.getBoolean(Constants.BTN_ENABLED, true));
                     btn_alerta.setText(sharedPreferences.getString(Constants.BTN_TXT_VALUE, ""));
                     sendAlert();
                 } else {
                     //stopAlert();
+
                 }
             }
         });
@@ -210,7 +214,7 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(), Protector.class));
                         break;
                     case 1:
-                        startActivity(new Intent(getApplicationContext(), ListaAgresoresActivity.class));
+                        startActivity(new Intent(getApplicationContext(), AgresorActivity.class));
                         break;
                     case 2:
                         startActivity(new Intent(getApplicationContext(), MapsActivity.class));
@@ -233,6 +237,12 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "onDestroy()");
     }
 }
 
